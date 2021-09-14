@@ -8,11 +8,39 @@ use Illuminate\Support\Facades\Http;
 
 class CoinRanking
 {
-    private const COIN_RANKING_API_URL = 'https://api.coinranking.com/v2/coin/Qwsogvtv82FCd/history';
+    private const COIN_RANKING_API_URL = 'https://api.coinranking.com/v2/';
+    private $coinIds = [];
 
-    public function getCoinPriceHistory(?string $period = '1y'): Response 
+    function __construct()
     {
-        return Http::get(self::COIN_RANKING_API_URL, ['timePeriod' => $period]);
+        $this->coinIds = $this->getCoinsId();
+    }
+
+    public function getCoins(): Response
+    {
+        return Http::get($this->getCoinsEndpoint(), [
+            'x-access-token' => 'coinranking5e43443bd45a48ac38744d5d22a78867b3f2d8fffc73660f'
+        ]);
+    }
+
+    public function getCoinPriceHistory(?string $period = '1y', ?string $coin = 'BTC'): Response 
+    {
+        return Http::get(
+            $this->getCoinHistoryEndpoint($this->getCoinUuid($coin)), 
+            [
+                'timePeriod' => $period,
+                'x-access-token' => 'coinranking5e43443bd45a48ac38744d5d22a78867b3f2d8fffc73660f'
+            ]
+        );
+    }
+
+    public function getCoinsId(): array
+    {
+        $coins = $this->getCoins();
+
+        return collect($coins['data']['coins'])->mapWithKeys(function($item, $key) {
+            return [$item['symbol'] => $item['uuid']];
+        })->toArray();
     }
 
     public function getPrices(Response $data): array
@@ -30,5 +58,20 @@ class CoinRanking
                 return Carbon::createFromTimestamp($timestamp)->format('d/m/Y H:i');
             })
             ->values()->toArray();
+    }
+
+    private function getCoinHistoryEndpoint($uuid): string
+    {
+        return self::COIN_RANKING_API_URL . 'coin/' . $uuid . '/history';
+    }
+
+    private function getCoinsEndpoint(): string
+    {
+        return self::COIN_RANKING_API_URL . 'coins';
+    }
+
+    private function getCoinUuid($coin): string
+    {
+        return $this->coinIds[$coin];
     }
 }

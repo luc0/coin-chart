@@ -13,12 +13,15 @@ class IndexController extends Controller
         $coinRanking = new CoinRanking();
         
         $range = request()->get('range');
-        $response = $coinRanking->getCoinPriceHistory($range);
+        $coin = request()->get('coin', 'BTC');
+
+        $response = $coinRanking->getCoinPriceHistory($range, $coin);
 
         if($response->successful()) {
             $data = [
                 'prices' => $coinRanking->getPrices($response),
                 'time' => $coinRanking->getDate($response),
+                'currentCoin' => $coin,
                 'currentRange' => $range
             ];
         }
@@ -26,6 +29,7 @@ class IndexController extends Controller
         if($response->failed()) {
             $data = [
                 'error' => $response->json('message'),
+                'currentCoin' => $coin,
                 'currentRange' => $range
             ];
         }

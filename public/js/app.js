@@ -21327,15 +21327,18 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     prices: Array,
     time: Array,
-    error: String,
-    currentRange: String
+    error: String
   },
   setup: function setup(props) {
+    var state = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
+      currentCoin: 'BTC',
+      currentRange: '1y'
+    });
     var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
       return {
         labels: props.time,
         datasets: [{
-          label: 'Bitcoin',
+          label: state.currentCoin,
           data: props.prices,
           borderColor: '#74b9ff',
           backgroundColor: '#74b9ff',
@@ -21345,28 +21348,28 @@ __webpack_require__.r(__webpack_exports__);
     });
 
     function changeRange(range) {
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.get('/', {
-        'range': range
-      });
-    } // function selectedStyles(range) {
-    //     return range == props.currentRange ? 'bg-indigo-50 border-indigo-500' : null;
-    // }
-    // const options = ref({
-    //     // scales: {
-    //     //     x: {
-    //     //         ticks: {
-    //     //             callback: (val, index) => {
-    //     //                 return val % (5) === 0 ? props.time[val] : '';
-    //     //             },
-    //     //         }
-    //     //     }
-    //     // }
-    // });
+      state.currentRange = range;
+      this.updateChart();
+    }
 
+    function changeCoin(coin) {
+      state.currentCoin = coin;
+      this.updateChart();
+    }
+
+    function updateChart() {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.post('/', {
+        'range': state.currentRange,
+        'coin': state.currentCoin
+      });
+    }
 
     return {
       chartData: chartData,
-      changeRange: changeRange
+      changeRange: changeRange,
+      changeCoin: changeCoin,
+      updateChart: updateChart,
+      state: state
     };
   }
 }));
@@ -25783,11 +25786,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     chartData: _ctx.chartData
   }, null, 8
   /* PROPS */
-  , ["chartData"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  , ["chartData"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentRange) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentCoin) + " ", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.changeRange('24h');
     }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([_ctx.currentRange === '24h' ? 'bg-indigo-50 border-indigo-500' : null, "relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"]),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([_ctx.state.currentRange === '24h' ? 'bg-indigo-50 border-indigo-500' : null, "relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"]),
     href: "#"
   }, " 24h ", 2
   /* CLASS */
@@ -25795,7 +25800,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.changeRange('7d');
     }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([_ctx.currentRange === '7d' ? 'bg-indigo-50 border-indigo-500' : null, "z-10 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"]),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([_ctx.state.currentRange === '7d' ? 'bg-indigo-50 border-indigo-500' : null, "z-10 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"]),
     href: "#"
   }, " 7d ", 2
   /* CLASS */
@@ -25803,11 +25808,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return _ctx.changeRange('1y');
     }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([_ctx.currentRange === '1y' ? 'bg-indigo-50 border-indigo-500' : null, "relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"]),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([_ctx.state.currentRange === '1y' ? 'bg-indigo-50 border-indigo-500' : null, "relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"]),
     href: "#"
   }, " 1y ", 2
   /* CLASS */
-  ), _ctx.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.error), 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return _ctx.changeCoin('BTC');
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([_ctx.state.currentCoin === 'BTC' ? 'bg-indigo-50 border-indigo-500' : null, "relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"]),
+    href: "#"
+  }, " Bitcoin ", 2
+  /* CLASS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    onClick: _cache[4] || (_cache[4] = function ($event) {
+      return _ctx.changeCoin('ETH');
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([_ctx.state.currentCoin === 'ETH' ? 'bg-indigo-50 border-indigo-500' : null, "z-10 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"]),
+    href: "#"
+  }, " Ethereum ", 2
+  /* CLASS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    onClick: _cache[5] || (_cache[5] = function ($event) {
+      return _ctx.changeCoin('ADA');
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([_ctx.state.currentCoin === 'ADA' ? 'bg-indigo-50 border-indigo-500' : null, "relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"]),
+    href: "#"
+  }, " Cardano ", 2
+  /* CLASS */
+  )]), _ctx.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.error), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64
   /* STABLE_FRAGMENT */
