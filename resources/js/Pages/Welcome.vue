@@ -1,41 +1,17 @@
 <template>
-    <LineChart :chartData="chartData"/>
-    {{ currentRange }}
-    {{ currentCoin }}
-    <div>
-        <a @click="changeRange('24h')" 
-            :class="state.currentRange === '24h' ? 'bg-indigo-50 border-indigo-500' : null" 
-            class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" href="#" >
-            24h
-        </a>
-        <a @click="changeRange('7d')" 
-            :class="state.currentRange === '7d' ? 'bg-indigo-50 border-indigo-500' : null" 
-            class="z-10 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#" >
-            7d
-        </a>
-        <a @click="changeRange('1y')" 
-            :class="state.currentRange === '1y' ? 'bg-indigo-50 border-indigo-500' : null" 
-            class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" href="#" >
-            1y
-        </a>
-    </div>
+    <LineChart :chartData="chartData" class="chart"/>
 
-    <div>
-        <a @click="changeCoin('BTC')" 
-            :class="state.currentCoin === 'BTC' ? 'bg-indigo-50 border-indigo-500' : null" 
-            class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" href="#" >
-            Bitcoin
-        </a>
-        <a @click="changeCoin('ETH')" 
-            :class="state.currentCoin === 'ETH' ? 'bg-indigo-50 border-indigo-500' : null" 
-            class="z-10 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#" >
-            Ethereum
-        </a>
-        <a @click="changeCoin('ADA')" 
-            :class="state.currentCoin === 'ADA' ? 'bg-indigo-50 border-indigo-500' : null" 
-            class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" href="#" >
-            Cardano
-        </a>
+    <div class="chart-filters">
+        <div class="filter-group">
+            <FilterRange :value="'24h'" :currentValue="state.currentRange" @changeRange="changeRange($event)" :side="'l'" />
+            <FilterRange :value="'7d'" :currentValue="state.currentRange"  @changeRange="changeRange($event)" />
+            <FilterRange :value="'1y'" :currentValue="state.currentRange" @changeRange="changeRange($event)" :side="'r'"/>
+        </div>
+        <div class="filter-group">
+            <FilterCoin :value="'BTC'" :currentValue="state.currentCoin" @changeCoin="changeCoin($event)" :side="'l'" />
+            <FilterCoin :value="'ETH'" :currentValue="state.currentCoin"  @changeCoin="changeCoin($event)" />
+            <FilterCoin :value="'ADA'" :currentValue="state.currentCoin" @changeCoin="changeCoin($event)" :side="'r'"/>
+        </div>
     </div>
 
     <p v-if="error" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
@@ -46,10 +22,12 @@
 <script>
     import { defineComponent, ref, computed, reactive } from 'vue';
     import { LineChart } from 'vue-chart-3';
+    import FilterRange from '../Components/Filters/FilterRange.vue';
+    import FilterCoin from '../Components/Filters/FilterCoin.vue';
     import { Inertia } from '@inertiajs/inertia';
 
     export default defineComponent({
-        components: { LineChart },
+        components: { LineChart, FilterRange, FilterCoin },
         props: {
             prices: Array,
             time: Array,
@@ -85,6 +63,7 @@
             }
             
             function updateChart() {
+                console.log('UPDATE')
                 Inertia.post('/', {'range': state.currentRange, 'coin': state.currentCoin})
             }
 
@@ -92,3 +71,18 @@
         },
     });
 </script>
+
+<style>
+    .chart {
+        width: 80%;
+        margin: 100px auto;
+    }
+    .chart-filters {
+        height: 90px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+</style>
