@@ -34,6 +34,13 @@ class CoinRanking
         );
     }
 
+    public function listCoins(): array
+    {
+        $coins = $this->getCoins();
+
+        return $coins['data']['coins'];
+    }
+
     public function getCoinsId(): array
     {
         $coins = $this->getCoins();

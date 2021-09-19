@@ -8,12 +8,11 @@ use Inertia\Inertia;
 
 class IndexController extends Controller
 {
-    public function index()
+    public function index($coin)
     {
         $coinRanking = new CoinRanking();
         
         $range = request()->get('range');
-        $coin = request()->get('coin', 'BTC');
 
         $response = $coinRanking->getCoinPriceHistory($range, $coin);
 

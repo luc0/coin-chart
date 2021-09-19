@@ -1,4 +1,8 @@
 <template>
+    <a href="/" class="nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+        Coin List
+    </a>
+
     <LineChart :chartData="chartData" class="chart"/>
 
     <div class="chart-filters">
@@ -32,10 +36,11 @@
             prices: Array,
             time: Array,
             error: String,
+            currentCoin: String
         },
         setup(props) {
             const state = reactive({
-                currentCoin: 'BTC',
+                currentCoin: props.currentCoin,
                 currentRange: '1y',
             });
 
@@ -63,8 +68,7 @@
             }
             
             function updateChart() {
-                console.log('UPDATE')
-                Inertia.post('/', {'range': state.currentRange, 'coin': state.currentCoin})
+                Inertia.post('/coin/' + state.currentCoin, {'range': state.currentRange})
             }
 
             return { chartData, changeRange, changeCoin, updateChart, state };
@@ -73,10 +77,15 @@
 </script>
 
 <style>
+    .nav-button {
+        margin: 20px;
+    }
+
     .chart {
         width: 80%;
         margin: 100px auto;
     }
+
     .chart-filters {
         height: 90px;
         display: flex;
