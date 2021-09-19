@@ -18,7 +18,7 @@ class IndexController extends Controller
 
         if($response->successful()) {
             $data = [
-                'prices' => $coinRanking->getPrices($response),
+                'prices' => $coinRanking->getPriceChanges($response),
                 'time' => $coinRanking->getDate($response),
                 'currentCoin' => $coin,
                 'currentRange' => $range

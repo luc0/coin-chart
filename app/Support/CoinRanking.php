@@ -57,6 +57,20 @@ class CoinRanking
             ->values()->toArray();
     }
 
+    public function getPriceChanges(Response $data): array
+    {
+        $prices = collect($data['data']['history'])
+            ->pluck('price');
+        $basePrice = $prices->first();
+
+        $changes = $prices->map(function($price) use ($basePrice){
+            $priceChange = ($price * 100 / $basePrice) - 100;
+            return ceil($priceChange * 100) / 100;
+        })->values()->toArray();
+
+        return $changes;
+    }
+
     public function getDate(Response $data): array
     {
         return collect($data['data']['history'])

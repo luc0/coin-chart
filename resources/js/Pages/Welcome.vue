@@ -12,9 +12,9 @@
             <FilterRange :value="'1y'" :currentValue="state.currentRange" @changeRange="changeRange($event)" :side="'r'"/>
         </div>
         <div class="filter-group">
-            <FilterCoin :value="'BTC'" :currentValue="state.currentCoin" @changeCoin="changeCoin($event)" :side="'l'" />
+            <FilterCoin :value="'BTC'" :currentValue="state.currentCoin" @changeCoin="changeCoin($event)" />
             <FilterCoin :value="'ETH'" :currentValue="state.currentCoin"  @changeCoin="changeCoin($event)" />
-            <FilterCoin :value="'ADA'" :currentValue="state.currentCoin" @changeCoin="changeCoin($event)" :side="'r'"/>
+            <FilterCoin :value="'ADA'" :currentValue="state.currentCoin" @changeCoin="changeCoin($event)" />
         </div>
     </div>
 
