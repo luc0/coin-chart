@@ -1,97 +1,206 @@
 <template>
-    <a href="/" class="nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
-        Coin List
-    </a>
+    <div class="container">
+        <div class="head">
+            <a href="/" class="nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+                Coin List
+            </a>
+            
+            <div class="coin-filter">
+                <div class="selected-coins flex">
+                    <div v-for="(coinItem, key) in selectedCoins">
+                            <img @click="removeCoin(coinItem)" class="coin absolute h-10 w-10 rounded-full" :style="'margin-left: ' + (25 * key) + 'px'" :src="coinItem.iconUrl" alt="">
+                    </div>
+                </div>
 
-    <LineChart :chartData="chartData" class="chart"/>
+                <Search :class="'select-coin'" :list="filterableCoinsList" @add-coin="addCoin"/>
+            </div>
+        </div>
+    
+        <div class="chart-filters">
+            <div class="filter-range">
+                <FilterRange v-for="rangeItem in filterRangeList" :value="rangeItem" :currentValue="filterRange" @changeRange="changeRange($event)" />
+            </div>
+        </div>
 
-    <div class="chart-filters">
-        <div class="filter-group">
-            <FilterRange :value="'24h'" :currentValue="state.currentRange" @changeRange="changeRange($event)" :side="'l'" />
-            <FilterRange :value="'7d'" :currentValue="state.currentRange"  @changeRange="changeRange($event)" />
-            <FilterRange :value="'1y'" :currentValue="state.currentRange" @changeRange="changeRange($event)" :side="'r'"/>
-        </div>
-        <div class="filter-group">
-            <FilterCoin :value="'BTC'" :currentValue="state.currentCoin" @changeCoin="changeCoin($event)" />
-            <FilterCoin :value="'ETH'" :currentValue="state.currentCoin"  @changeCoin="changeCoin($event)" />
-            <FilterCoin :value="'ADA'" :currentValue="state.currentCoin" @changeCoin="changeCoin($event)" />
-        </div>
+        <LineChart :chartData="chartData" class="chart" :options="options" />
+
+        <p v-if="error" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+            {{ error }}
+        </p>
     </div>
-
-    <p v-if="error" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-        {{ error }}
-    </p>
 </template>
 
 <script>
-    import { defineComponent, ref, computed, reactive } from 'vue';
+    import { defineComponent, ref, computed, reactive, toRefs } from 'vue';
     import { LineChart } from 'vue-chart-3';
     import FilterRange from '../Components/Filters/FilterRange.vue';
     import FilterCoin from '../Components/Filters/FilterCoin.vue';
+    import Search from '../Components/Filters/Search.vue';
     import { Inertia } from '@inertiajs/inertia';
+    import { usePage } from '@inertiajs/inertia-vue3'
+    import { months } from '../utils'
+    import moment from 'moment';
+    import 'chartjs-adapter-moment';
+
 
     export default defineComponent({
-        components: { LineChart, FilterRange, FilterCoin },
+        components: { LineChart, FilterRange, FilterCoin, Search },
         props: {
-            prices: Array,
-            time: Array,
+            chartPrices: Array,
+            chartDates: Array,
             error: String,
-            currentCoin: String
+            coinsList: Array, 
+            filterRangeList: Array
         },
         setup(props) {
             const state = reactive({
-                currentCoin: props.currentCoin,
-                currentRange: '1y',
+                filterRange: '1y',
+                selectedCoins: usePage().props.value.coinsSelected,
             });
 
-            const chartData = computed(() => ({
-                labels: props.time,
-                datasets: [
-                    {
-                        label: state.currentCoin,
-                        data: props.prices,
-                        borderColor: '#74b9ff',
-                        backgroundColor: '#74b9ff',
-                        tension: 0.4
-                    },
-                ],
-            }));
+            const filterableCoinsList = computed(() => {
+                return props.coinsList.filter((coin) => {
+                    let isPresent = false
+                    state.selectedCoins.forEach((current) => {
+                        if(current.symbol == coin.symbol) isPresent = true
+                    });
+                    return !isPresent
+                })
+            })
+            
+            const chartData = computed(() => {
+                const dates = props.chartDates.map((timestamp) => {
+                    return moment.unix(timestamp)
+                })
+
+                return {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: '% change',
+                            data: props.chartPrices,
+                            borderColor: '#74b9ff',
+                            backgroundColor: '#74b9ff',
+                            tension: 0.4
+                        },
+                    ],
+                }
+            });
+
+            const options = ref({
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        gridLines: {
+                            display:false
+                        },
+                        time: {
+                            minUnit: 'minute',
+                            stepSize: 10,
+                        }
+                    }
+                }
+            })
 
             function changeRange(range) {
-                state.currentRange = range;
+                state.filterRange = range;
                 this.updateChart();
             }
 
-            function changeCoin(coin) {
-                state.currentCoin = coin;
-                this.updateChart();
+            function addCoin(coin) 
+            {
+                state.selectedCoins.push(coin);
+                updateChart();
+            }
+
+            function removeCoin(removeCoin) 
+            {
+                state.selectedCoins = state.selectedCoins.filter((coin) => (
+                    coin.symbol != removeCoin.symbol
+                ));
+                updateChart();
             }
             
             function updateChart() {
-                Inertia.post('/coin/' + state.currentCoin, {'range': state.currentRange})
+                Inertia.post('/coin/', {'coins': state.selectedCoins, 'range': state.filterRange})
             }
 
-            return { chartData, changeRange, changeCoin, updateChart, state };
+            return { options, chartData, changeRange, updateChart, ...toRefs(state), addCoin, removeCoin, filterableCoinsList };
         },
     });
 </script>
 
 <style>
-    .nav-button {
-        margin: 20px;
+    body {
+        color: #333;    
     }
 
     .chart {
-        width: 80%;
-        margin: 100px auto;
+        height: 400px;
+        margin: 0 auto;
     }
 
     .chart-filters {
-        height: 90px;
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-end;
+        height: 90px;
         align-items: center;
+    }
+
+    .coin {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 2px;
+    }
+
+    .coin:hover {
+        margin-top: -10px;
+        cursor: pointer;
+    }
+
+    .container {
+        width: 1200px;
+        margin: auto;
+    }
+
+    .head {
+        display: flex;
+        padding: 20px 0 0 50px;
+    }
+
+    .nav-button {
+        margin-right: 80px;
+        background: #f3f3f3;
+        border: 1px solid #ddd;
+        line-height: 24px;
+        color: #333;
+    }
+
+    .coin-filter {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .selected-coins {
+        width: 145px;
+    }
+
+    .selected-coins .coin-item .remove-coin {
+        display: none;
+        background: #d85757;
+        color: white;
+        border-radius: 50px;
+        padding: 0 7px;
+        position: absolute;
+        z-index: 9999;
+        left: -3px;
+        top: 20px;
+        font-size: 10px;
+    }
+
+    .selected-coins .coin-item:hover .remove-coin {
+        display: block;
     }
     
 </style>

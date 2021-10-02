@@ -2,9 +2,11 @@
 
 namespace App\Support;
 
+use App\Response\CoinGroupResponse;
 use Carbon\Carbon;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use PhpParser\Node\Expr\Cast\Array_;
 
 class CoinRanking
 {
@@ -23,15 +25,23 @@ class CoinRanking
         ]);
     }
 
-    public function getCoinPriceHistory(?string $period = '1y', ?string $coin = 'BTC'): Response 
+    public function getCoinsPriceHistory(?string $period = '1y', array $coins): CoinGroupResponse 
     {
-        return Http::get(
-            $this->getCoinHistoryEndpoint($this->getCoinUuid($coin)), 
-            [
-                'timePeriod' => $period,
-                'x-access-token' => 'coinranking5e43443bd45a48ac38744d5d22a78867b3f2d8fffc73660f'
-            ]
-        );
+        $history = [];
+
+        foreach($coins as $coin) {
+            $response =  Http::get(
+                $this->getCoinHistoryEndpoint($coin['uuid']), 
+                [
+                    'timePeriod' => $period,
+                    'x-access-token' => 'coinranking5e43443bd45a48ac38744d5d22a78867b3f2d8fffc73660f'
+                ]
+            );
+
+            $history[$coin['symbol']] = new CoinResponse($response);
+        }
+
+        return new CoinGroupResponse($history);
     }
 
     public function listCoins(): array
@@ -40,6 +50,16 @@ class CoinRanking
 
         return $coins['data']['coins'];
     }
+
+    // public function listCoinsSymbol(): array
+    // {
+    //     return collect($this->listCoins())->map(function($item, $key) {
+    //         return [
+    //             'symbol' => $item['symbol'],
+    //             'iconUrl' => $item['iconUrl']
+    //         ];
+    //     })->toArray();
+    // }
 
     public function getCoinsId(): array
     {
@@ -54,30 +74,6 @@ class CoinRanking
     {
         return collect($data['data']['history'])
             ->pluck('price')
-            ->values()->toArray();
-    }
-
-    public function getPriceChanges(Response $data): array
-    {
-        $prices = collect($data['data']['history'])
-            ->pluck('price');
-        $basePrice = $prices->first();
-
-        $changes = $prices->map(function($price) use ($basePrice){
-            $priceChange = ($price * 100 / $basePrice) - 100;
-            return ceil($priceChange * 100) / 100;
-        })->values()->toArray();
-
-        return $changes;
-    }
-
-    public function getDate(Response $data): array
-    {
-        return collect($data['data']['history'])
-            ->pluck('timestamp')
-            ->map(function($timestamp) {
-                return Carbon::createFromTimestamp($timestamp)->format('d/m/Y H:i');
-            })
             ->values()->toArray();
     }
 

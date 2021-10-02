@@ -26,6 +26,8 @@
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
+        "chartjs-adapter-moment": "^1.0.0",
+        "moment": "^2.29.1",
         "vue-chart-3": "^0.5.8"
     }
 }
