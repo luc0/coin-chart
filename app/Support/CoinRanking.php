@@ -25,7 +25,7 @@ class CoinRanking
         ]);
     }
 
-    public function getCoinsPriceHistory(?string $period = '1y', array $coins): CoinGroupResponse 
+    public function getCoinsPriceHistory(?string $period = '3m', array $coins): CoinGroupResponse 
     {
         $history = [];
 

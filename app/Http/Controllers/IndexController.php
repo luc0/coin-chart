@@ -18,7 +18,7 @@ class IndexController extends Controller
 
         $responses = $coinRanking->getCoinsPriceHistory($range, $coins);
         $success = $responses->allSuccessful();
-// dd($responses->getDates())
+
         $data = [
             'coinsList' => $coinRanking->listCoins($coins), // coinList
             'coinsSelected' => $coins, // currentCoins

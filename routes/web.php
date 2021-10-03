@@ -17,9 +17,9 @@ use Inertia\Inertia;
 |
 */
 
-Route::any('/', [ListCoinsController::class, 'index']);
+Route::any('/coin', [ListCoinsController::class, 'index']);
 
-Route::any('/coin', [IndexController::class, 'index']);
+Route::any('/', [IndexController::class, 'index']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');

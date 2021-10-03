@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="head">
-            <a href="/" class="nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+            <a href="/coin" class="nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
                 Coin List
             </a>
             
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <LineChart :chartData="chartData" class="chart" :options="options" />
+        <LineChart :chartData="chartData" class="chart" :options="chartOptions" />
 
         <p v-if="error" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
             {{ error }}
@@ -54,7 +54,7 @@
         },
         setup(props) {
             const state = reactive({
-                filterRange: '1y',
+                filterRange: '3m',
                 selectedCoins: usePage().props.value.coinsSelected,
             });
 
@@ -87,7 +87,7 @@
                 }
             });
 
-            const options = ref({
+            const chartOptions = ref({
                 responsive: true,
                 scales: {
                     x: {
@@ -98,6 +98,13 @@
                         time: {
                             minUnit: 'minute',
                             stepSize: 10,
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return value + '%';
+                            }
                         }
                     }
                 }
@@ -123,10 +130,10 @@
             }
             
             function updateChart() {
-                Inertia.post('/coin/', {'coins': state.selectedCoins, 'range': state.filterRange})
+                Inertia.post('/', {'coins': state.selectedCoins, 'range': state.filterRange})
             }
 
-            return { options, chartData, changeRange, updateChart, ...toRefs(state), addCoin, removeCoin, filterableCoinsList };
+            return { chartOptions, chartData, changeRange, updateChart, ...toRefs(state), addCoin, removeCoin, filterableCoinsList };
         },
     });
 </script>

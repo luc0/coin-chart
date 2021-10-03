@@ -38,7 +38,7 @@ class CoinResponse
         return $this->prices;
     }
 
-    public function getFirstPrice(): int
+    public function getFirstPrice(): float
     {
         return $this->prices->first();
     }
@@ -55,35 +55,6 @@ class CoinResponse
 
     public function getDates(): array
     {
-        /*
-            - division meses:
-                - si el dia es 1, devolver nombre del mes. SINO ''
-        */
-        // $dates = $this->dates->map(function($timestamp) {
-        //     $date = Carbon::createFromTimestamp($timestamp);
-        //     if($date->month == 1 && $date->day == 1) {
-        //         return Carbon::createFromTimestamp($timestamp)->format('Y');
-        //     }
-
-        //     if($date->day == 1) {
-        //         return Carbon::createFromTimestamp($timestamp)->format('F');
-        //     }
-
-        //     return Carbon::createFromTimestamp($timestamp)->format('d/m/Y H:i');
-        // })->values()->toArray();
-
-        // return $dates;
-// dd($dates);
-        // return $this->dates->map(function($timestamp) {
-        //     return Carbon::createFromTimestamp($timestamp)->format('d/m/Y H:i');
-        // })->values()->toArray();
-
-        // dd($this->dates->map(function($timestamp) {
-        //     return Carbon::createFromTimestamp($timestamp)->format('d/m/Y H:i');
-        // })->values()->toArray());
         return $this->dates->toArray();
-        // return $this->dates->map(function($timestamp) {
-        //     return Carbon::createFromTimestamp($timestamp)->format('d/m/Y H:i');
-        // })->values()->toArray();
     }
 }
