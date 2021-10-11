@@ -2179,7 +2179,7 @@ var KEY_FILTER = 'Enter';
       }
 
       if (event.key === KEY_FILTER) {
-        addCoin();
+        addCoin(state.filteredList[state.selectionPosition]);
         return;
       }
 
@@ -2200,8 +2200,8 @@ var KEY_FILTER = 'Enter';
       }
     }
 
-    function addCoin() {
-      context.emit('addCoin', state.filteredList[state.selectionPosition]);
+    function addCoin(item) {
+      context.emit('addCoin', item);
       state.showDropdown = false;
       resetPosition();
     }
@@ -2232,7 +2232,8 @@ var KEY_FILTER = 'Enter';
       toggleDropdown: toggleDropdown,
       keyUp: keyUp,
       visibleCoins: visibleCoins,
-      closeDropdown: closeDropdown
+      closeDropdown: closeDropdown,
+      addCoin: addCoin
     };
   }
 }));
@@ -4300,14 +4301,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         datasets: [{
           label: '% change',
           data: props.chartPrices,
-          borderColor: '#74b9ff',
-          backgroundColor: '#74b9ff',
+          borderColor: '#f3a683',
+          backgroundColor: '#f3a683',
           tension: 0.4
         }]
       };
     });
     var chartOptions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({
       responsive: true,
+      elements: {
+        point: {
+          radius: 0
+        }
+      },
       scales: {
         x: {
           type: 'time',
@@ -4406,10 +4412,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6 ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6&scoped=true":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6&scoped=true ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4424,7 +4430,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.$emit('changeRange', _ctx.value);
     }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([[_ctx.currentValue === _ctx.value ? 'bg-indigo-50 border-indigo-500' : null, _ctx.side ? 'rounded-' + _ctx.side + '-md' : null], "z-10 relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"]),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([[_ctx.currentValue === _ctx.value ? 'btn-filter-selected' : null, _ctx.side ? 'rounded-' + _ctx.side + '-md' : null], "btn-filter"]),
     href: "#"
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.value), 3
   /* TEXT, CLASS */
@@ -4452,8 +4458,9 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "dropdown"
 };
-var _hoisted_2 = ["src"];
-var _hoisted_3 = {
+var _hoisted_2 = ["onClick"];
+var _hoisted_3 = ["src"];
+var _hoisted_4 = {
   "class": "ml-4"
 };
 
@@ -4479,17 +4486,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.state.searchString]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleCoins, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      onClick: function onClick($event) {
+        return _ctx.addCoin(item);
+      },
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["item flex", item.selected ? 'item-selected' : null])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: item.iconUrl,
       "class": "h-5 w-5 rounded-full"
     }, null, 8
     /* PROPS */
-    , _hoisted_2)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.symbol), 1
+    , _hoisted_3)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.symbol), 1
     /* TEXT */
-    )], 2
-    /* CLASS */
-    );
+    )], 10
+    /* CLASS, PROPS */
+    , _hoisted_2);
   }), 256
   /* UNKEYED_FRAGMENT */
   ))], 512
@@ -9023,28 +9033,20 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "head"
 };
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "/coin",
-  "class": "nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-}, " Coin List ", -1
-/* HOISTED */
-);
-
-var _hoisted_4 = {
+var _hoisted_3 = {
   "class": "coin-filter"
 };
-var _hoisted_5 = {
+var _hoisted_4 = {
   "class": "selected-coins flex"
 };
-var _hoisted_6 = ["onClick", "src"];
-var _hoisted_7 = {
+var _hoisted_5 = ["onClick", "src"];
+var _hoisted_6 = {
   "class": "chart-filters"
 };
-var _hoisted_8 = {
+var _hoisted_7 = {
   "class": "filter-range"
 };
-var _hoisted_9 = {
+var _hoisted_8 = {
   key: 0,
   "class": "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
 };
@@ -9055,18 +9057,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_LineChart = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("LineChart");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.selectedCoins, function (coinItem, key) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <a href=\"/coin\" class=\"nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm\">\n                Coin List\n            </a> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.selectedCoins, function (coinItem, key) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       onClick: function onClick($event) {
         return _ctx.removeCoin(coinItem);
       },
-      "class": "coin absolute h-10 w-10 rounded-full",
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('margin-left: ' + 25 * key + 'px'),
+      "class": "coin h-10 w-10 rounded-full",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('right: -' + 20 * key + 'px; z-index:' + (100 - key)),
       src: coinItem.iconUrl,
       alt: ""
     }, null, 12
     /* STYLE, PROPS */
-    , _hoisted_6)]);
+    , _hoisted_5)]);
   }), 256
   /* UNKEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Search, {
@@ -9075,7 +9077,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onAddCoin: _ctx.addCoin
   }, null, 8
   /* PROPS */
-  , ["list", "onAddCoin"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filterRangeList, function (rangeItem) {
+  , ["list", "onAddCoin"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filterRangeList, function (rangeItem) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_FilterRange, {
       value: rangeItem,
       currentValue: _ctx.filterRange,
@@ -9093,7 +9095,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     options: _ctx.chartOptions
   }, null, 8
   /* PROPS */
-  , ["chartData", "options"]), _ctx.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.error), 1
+  , ["chartData", "options"]), _ctx.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.error), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
@@ -22693,6 +22695,33 @@ chart_js__WEBPACK_IMPORTED_MODULE_1__._adapters._date.override(typeof (moment__W
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-filter[data-v-2b7fa9f6] {\n        padding: 5px 8px;\n        background: #efefef;\n        color: #303952;\n        margin: 0 4px;\n}\n.btn-filter-selected[data-v-2b7fa9f6] {\n        background: #f3a683;\n        font-weight: bold;\n}\n", "",{"version":3,"sources":["webpack://./resources/js/Components/Filters/FilterRange.vue"],"names":[],"mappings":";AAYI;QACI,gBAAgB;QAChB,mBAAmB;QACnB,cAAc;QACd,aAAa;AACjB;AAEA;QACI,mBAAmB;QACnB,iBAAiB;AACrB","sourcesContent":["<template>\n    <a @click=\"$emit('changeRange', value)\" \n        :class=\"[\n            currentValue === value ? 'btn-filter-selected' : null, \n            side ? 'rounded-' + side + '-md' : null\n        ]\" \n        class=\"btn-filter\" href=\"#\" >\n        {{ value }}\n    </a>\n</template>\n\n<style scoped>\n    .btn-filter {\n        padding: 5px 8px;\n        background: #efefef;\n        color: #303952;\n        margin: 0 4px;\n    }\n\n    .btn-filter-selected {\n        background: #f3a683;\n        font-weight: bold;\n    }\n</style>\n\n<script>\nimport { defineComponent } from 'vue';\n\nexport default defineComponent({\n    props: {\n        value: String,\n        currentValue: String,\n        side: String\n    },\n    setup() {\n        return {}\n    },\n})\n</script>\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/Search.vue?vue&type=style&index=0&id=a0fb0932&scoped=true&lang=css":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/Search.vue?vue&type=style&index=0&id=a0fb0932&scoped=true&lang=css ***!
@@ -22713,7 +22742,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.searchInput[data-v-a0fb0932] {\n        font-size: 18px;\n        width: 100px;\n        border: 1px solid #ddd;\n        border-radius: 20px;\n}\n.dropdown[data-v-a0fb0932] {\n        background: rgb(252, 252, 252);\n        border: 1px solid #eee;\n        width: 200px;\n        position: absolute;\n        z-index: 9999;\n}\n.item[data-v-a0fb0932] {\n        padding: 10px;\n        position: relative;\n        border: 1px solid #f5f5f5;\n}\n.item-selected[data-v-a0fb0932] {\n        background: #eee;\n        font-weight: bold;\n        padding-left: 12px;\n}\n.item[data-v-a0fb0932]:hover {\n        background: #ddd;\n        cursor: pointer;\n}\n\n", "",{"version":3,"sources":["webpack://./resources/js/Components/Filters/Search.vue"],"names":[],"mappings":";AAeI;QACI,eAAe;QACf,YAAY;QACZ,sBAAsB;QACtB,mBAAmB;AACvB;AAEA;QACI,8BAA8B;QAC9B,sBAAsB;QACtB,YAAY;QACZ,kBAAkB;QAClB,aAAa;AACjB;AAEA;QACI,aAAa;QACb,kBAAkB;QAClB,yBAAyB;AAC7B;AAEA;QACI,gBAAgB;QAChB,iBAAiB;QACjB,kBAAkB;AACtB;AAEA;QACI,gBAAgB;QAChB,eAAe;AACnB","sourcesContent":["<template>\n    <div v-click-outside=\"closeDropdown\">\n        <input ref=\"searchString\" v-model=\"state.searchString\" @click=\"toggleDropdown()\" @keyup=\"keyUp($event)\" type=\"text\" class=\"searchInput\" />\n        <div v-show=\"state.showDropdown\" class=\"dropdown\">\n            <div v-for=\"item in visibleCoins\" class=\"item flex\" :class=\"item.selected ? 'item-selected' : null\">\n                <div>\n                    <img :src=\"item.iconUrl\" class=\"h-5 w-5 rounded-full\">\n                </div>\n                <div class=\"ml-4\">{{ item.symbol }}</div>\n            </div>\n        </div>\n    </div>\n</template>\n\n<style scoped>\n    .searchInput {\n        font-size: 18px;\n        width: 100px;\n        border: 1px solid #ddd;\n        border-radius: 20px;\n    }\n\n    .dropdown {\n        background: rgb(252, 252, 252);\n        border: 1px solid #eee;\n        width: 200px;\n        position: absolute;\n        z-index: 9999;\n    }\n\n    .item {\n        padding: 10px;\n        position: relative;\n        border: 1px solid #f5f5f5;\n    }\n\n    .item-selected {\n        background: #eee;\n        font-weight: bold;\n        padding-left: 12px;\n    }\n\n    .item:hover {\n        background: #ddd;\n        cursor: pointer;\n    }\n\n</style>\n\n<script>\n    import { computed, defineComponent, reactive, watch } from 'vue'\n\n    const VISIBLE_COUNT = 8;\n    const KEY_MOVE_DOWN = 'ArrowDown'\n    const KEY_MOVE_UP = 'ArrowUp'\n    const KEY_FILTER = 'Enter'\n\n    export default defineComponent({\n        props: {\n            list: Array,\n        },\n        setup(props, context) {\n            watch(props, () => {\n                state.filteredList = getListFiltered()\n            });\n\n            const state = reactive({\n                showDropdown: false,    \n                filteredList: props.list,\n                selectionPosition: -1,\n                searchString: ''\n            });\n            \n            const visibleCoins = computed(() => {\n                return state.filteredList.slice(0, VISIBLE_COUNT)\n            })\n\n            function closeDropdown() {\n                state.showDropdown = false;\n            }\n\n            function toggleDropdown() {\n                state.showDropdown = !state.showDropdown;\n            }\n\n            function keyUp(event) {\n                const direction = (event.key === KEY_MOVE_DOWN) ? 1 : (event.key === KEY_MOVE_UP) ? -1 : null;\n\n                if (direction) {\n                    moveSelection(direction);\n                    return\n                }\n\n                if(event.key === KEY_FILTER) {\n                    addCoin()\n                    return;\n                }\n\n                filter(this);\n            }\n\n            function moveSelection(direction) {\n                if(! canMove(direction)) return;\n\n                state.showDropdown = true;\n                state.selectionPosition += direction;\n\n                if(state.filteredList[state.selectionPosition]) {\n                    state.filteredList[state.selectionPosition].selected = true;\n                }\n                \n                if(state.selectionPosition > 0 || (state.selectionPosition >= 0 && direction == -1)) {\n                    state.filteredList[state.selectionPosition - (1 * direction) ].selected = false;\n                }\n            }\n\n            function addCoin() {\n                context.emit('addCoin', state.filteredList[state.selectionPosition])\n                state.showDropdown = false;\n                resetPosition()\n            }\n\n            function filter(current) {\n                state.filteredList = getListFiltered(false)\n                state.showDropdown = true;\n                resetPosition()\n            }\n\n            function getListFiltered(select) {\n                return props.list.filter((item) => {\n                    if(select) item.selected = select;\n                    return item.symbol.toLowerCase().includes(state.searchString.toLowerCase())\n                })\n            }\n\n            function canMove(direction) {\n                return (direction == -1 && state.selectionPosition > 0) \n                || (direction == 1 && state.selectionPosition < state.filteredList.length - 1)\n            }\n\n            function resetPosition() {\n                state.selectionPosition = -1;\n            }\n\n            return { state, toggleDropdown, keyUp, visibleCoins, closeDropdown }\n        },\n    })\n</script>\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.searchInput[data-v-a0fb0932] {\n        font-size: 18px;\n        width: 100px;\n        border: 1px solid #ddd;\n        border-radius: 20px;\n}\n.dropdown[data-v-a0fb0932] {\n        background: rgb(252, 252, 252);\n        border: 1px solid #eee;\n        width: 200px;\n        position: absolute;\n        z-index: 9999;\n}\n.item[data-v-a0fb0932] {\n        padding: 10px;\n        position: relative;\n        border: 1px solid #f5f5f5;\n}\n.item-selected[data-v-a0fb0932] {\n        background: #eee;\n        font-weight: bold;\n        padding-left: 12px;\n}\n.item[data-v-a0fb0932]:hover {\n        background: #ddd;\n        cursor: pointer;\n}\n@-webkit-keyframes example-a0fb0932 {\nfrom {background-color: red;}\nto {background-color: yellow;}\n}\n@keyframes example-a0fb0932 {\nfrom {background-color: red;}\nto {background-color: yellow;}\n}\n\n", "",{"version":3,"sources":["webpack://./resources/js/Components/Filters/Search.vue"],"names":[],"mappings":";AAeI;QACI,eAAe;QACf,YAAY;QACZ,sBAAsB;QACtB,mBAAmB;AACvB;AAEA;QACI,8BAA8B;QAC9B,sBAAsB;QACtB,YAAY;QACZ,kBAAkB;QAClB,aAAa;AACjB;AAEA;QACI,aAAa;QACb,kBAAkB;QAClB,yBAAyB;AAC7B;AAEA;QACI,gBAAgB;QAChB,iBAAiB;QACjB,kBAAkB;AACtB;AAEA;QACI,gBAAgB;QAChB,eAAe;AACnB;AAEA;AACI,MAAM,qBAAqB,CAAC;AAC5B,IAAI,wBAAwB,CAAC;AACjC;AAHA;AACI,MAAM,qBAAqB,CAAC;AAC5B,IAAI,wBAAwB,CAAC;AACjC","sourcesContent":["<template>\n    <div v-click-outside=\"closeDropdown\">\n        <input ref=\"searchString\" v-model=\"state.searchString\" @click=\"toggleDropdown()\" @keyup=\"keyUp($event)\" type=\"text\" class=\"searchInput\" />\n        <div v-show=\"state.showDropdown\" class=\"dropdown\">\n            <div v-for=\"item in visibleCoins\" @click=\"addCoin(item)\" class=\"item flex\" :class=\"item.selected ? 'item-selected' : null\">\n                <div>\n                    <img :src=\"item.iconUrl\" class=\"h-5 w-5 rounded-full\">\n                </div>\n                <div class=\"ml-4\">{{ item.symbol }}</div>\n            </div>\n        </div>\n    </div>\n</template>\n\n<style scoped>\n    .searchInput {\n        font-size: 18px;\n        width: 100px;\n        border: 1px solid #ddd;\n        border-radius: 20px;\n    }\n\n    .dropdown {\n        background: rgb(252, 252, 252);\n        border: 1px solid #eee;\n        width: 200px;\n        position: absolute;\n        z-index: 9999;\n    }\n\n    .item {\n        padding: 10px;\n        position: relative;\n        border: 1px solid #f5f5f5;\n    }\n\n    .item-selected {\n        background: #eee;\n        font-weight: bold;\n        padding-left: 12px;\n    }\n\n    .item:hover {\n        background: #ddd;\n        cursor: pointer;\n    }\n\n    @keyframes example {\n        from {background-color: red;}\n        to {background-color: yellow;}\n    }\n\n</style>\n\n<script>\n    import { computed, defineComponent, reactive, watch } from 'vue'\n\n    const VISIBLE_COUNT = 8;\n    const KEY_MOVE_DOWN = 'ArrowDown'\n    const KEY_MOVE_UP = 'ArrowUp'\n    const KEY_FILTER = 'Enter'\n\n    export default defineComponent({\n        props: {\n            list: Array,\n        },\n        setup(props, context) {\n            watch(props, () => {\n                state.filteredList = getListFiltered()\n            });\n\n            const state = reactive({\n                showDropdown: false,    \n                filteredList: props.list,\n                selectionPosition: -1,\n                searchString: ''\n            });\n            \n            const visibleCoins = computed(() => {\n                return state.filteredList.slice(0, VISIBLE_COUNT)\n            })\n\n            function closeDropdown() {\n                state.showDropdown = false;\n            }\n\n            function toggleDropdown() {\n                state.showDropdown = !state.showDropdown;\n            }\n\n            function keyUp(event) {\n                const direction = (event.key === KEY_MOVE_DOWN) ? 1 : (event.key === KEY_MOVE_UP) ? -1 : null;\n\n                if (direction) {\n                    moveSelection(direction);\n                    return\n                }\n\n                if(event.key === KEY_FILTER) {\n                    addCoin(state.filteredList[state.selectionPosition])\n                    return;\n                }\n\n                filter(this);\n            }\n\n            function moveSelection(direction) {\n                if(! canMove(direction)) return;\n\n                state.showDropdown = true;\n                state.selectionPosition += direction;\n\n                if(state.filteredList[state.selectionPosition]) {\n                    state.filteredList[state.selectionPosition].selected = true;\n                }\n                \n                if(state.selectionPosition > 0 || (state.selectionPosition >= 0 && direction == -1)) {\n                    state.filteredList[state.selectionPosition - (1 * direction) ].selected = false;\n                }\n            }\n\n            function addCoin(item) {\n                context.emit('addCoin', item)\n                state.showDropdown = false;\n                resetPosition()\n            }\n\n            function filter(current) {\n                state.filteredList = getListFiltered(false)\n                state.showDropdown = true;\n                resetPosition()\n            }\n\n            function getListFiltered(select) {\n                return props.list.filter((item) => {\n                    if(select) item.selected = select;\n                    return item.symbol.toLowerCase().includes(state.searchString.toLowerCase())\n                })\n            }\n\n            function canMove(direction) {\n                return (direction == -1 && state.selectionPosition > 0) \n                || (direction == 1 && state.selectionPosition < state.filteredList.length - 1)\n            }\n\n            function resetPosition() {\n                state.selectionPosition = -1;\n            }\n\n            return { state, toggleDropdown, keyUp, visibleCoins, closeDropdown, addCoin }\n        },\n    })\n</script>\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22767,7 +22796,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody {\n        color: #333;\n}\n.chart {\n        height: 400px;\n        margin: 0 auto;\n}\n.chart-filters {\n        display: flex;\n        justify-content: flex-end;\n        height: 90px;\n        align-items: center;\n}\n.coin {\n        background: white;\n        border: 1px solid #ddd;\n        padding: 2px;\n}\n.coin:hover {\n        margin-top: -10px;\n        cursor: pointer;\n}\n.container {\n        width: 1200px;\n        margin: auto;\n}\n.head {\n        display: flex;\n        padding: 20px 0 0 50px;\n}\n.nav-button {\n        margin-right: 80px;\n        background: #f3f3f3;\n        border: 1px solid #ddd;\n        line-height: 24px;\n        color: #333;\n}\n.coin-filter {\n        display: flex;\n        justify-content: space-between;\n}\n.selected-coins {\n        width: 145px;\n}\n.selected-coins .coin-item .remove-coin {\n        display: none;\n        background: #d85757;\n        color: white;\n        border-radius: 50px;\n        padding: 0 7px;\n        position: absolute;\n        z-index: 9999;\n        left: -3px;\n        top: 20px;\n        font-size: 10px;\n}\n.selected-coins .coin-item:hover .remove-coin {\n        display: block;\n}\n    \n", "",{"version":3,"sources":["webpack://./Welcome.vue"],"names":[],"mappings":";AA6II;QACI,WAAW;AACf;AAEA;QACI,aAAa;QACb,cAAc;AAClB;AAEA;QACI,aAAa;QACb,yBAAyB;QACzB,YAAY;QACZ,mBAAmB;AACvB;AAEA;QACI,iBAAiB;QACjB,sBAAsB;QACtB,YAAY;AAChB;AAEA;QACI,iBAAiB;QACjB,eAAe;AACnB;AAEA;QACI,aAAa;QACb,YAAY;AAChB;AAEA;QACI,aAAa;QACb,sBAAsB;AAC1B;AAEA;QACI,kBAAkB;QAClB,mBAAmB;QACnB,sBAAsB;QACtB,iBAAiB;QACjB,WAAW;AACf;AAEA;QACI,aAAa;QACb,8BAA8B;AAClC;AAEA;QACI,YAAY;AAChB;AAEA;QACI,aAAa;QACb,mBAAmB;QACnB,YAAY;QACZ,mBAAmB;QACnB,cAAc;QACd,kBAAkB;QAClB,aAAa;QACb,UAAU;QACV,SAAS;QACT,eAAe;AACnB;AAEA;QACI,cAAc;AAClB","sourcesContent":["<template>\n    <div class=\"container\">\n        <div class=\"head\">\n            <a href=\"/coin\" class=\"nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm\">\n                Coin List\n            </a>\n            \n            <div class=\"coin-filter\">\n                <div class=\"selected-coins flex\">\n                    <div v-for=\"(coinItem, key) in selectedCoins\">\n                            <img @click=\"removeCoin(coinItem)\" class=\"coin absolute h-10 w-10 rounded-full\" :style=\"'margin-left: ' + (25 * key) + 'px'\" :src=\"coinItem.iconUrl\" alt=\"\">\n                    </div>\n                </div>\n\n                <Search :class=\"'select-coin'\" :list=\"filterableCoinsList\" @add-coin=\"addCoin\"/>\n            </div>\n        </div>\n    \n        <div class=\"chart-filters\">\n            <div class=\"filter-range\">\n                <FilterRange v-for=\"rangeItem in filterRangeList\" :value=\"rangeItem\" :currentValue=\"filterRange\" @changeRange=\"changeRange($event)\" />\n            </div>\n        </div>\n\n        <LineChart :chartData=\"chartData\" class=\"chart\" :options=\"chartOptions\" />\n\n        <p v-if=\"error\" class=\"w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm\">\n            {{ error }}\n        </p>\n    </div>\n</template>\n\n<script>\n    import { defineComponent, ref, computed, reactive, toRefs } from 'vue';\n    import { LineChart } from 'vue-chart-3';\n    import FilterRange from '../Components/Filters/FilterRange.vue';\n    import FilterCoin from '../Components/Filters/FilterCoin.vue';\n    import Search from '../Components/Filters/Search.vue';\n    import { Inertia } from '@inertiajs/inertia';\n    import { usePage } from '@inertiajs/inertia-vue3'\n    import { months } from '../utils'\n    import moment from 'moment';\n    import 'chartjs-adapter-moment';\n\n\n    export default defineComponent({\n        components: { LineChart, FilterRange, FilterCoin, Search },\n        props: {\n            chartPrices: Array,\n            chartDates: Array,\n            error: String,\n            coinsList: Array, \n            filterRangeList: Array\n        },\n        setup(props) {\n            const state = reactive({\n                filterRange: '3m',\n                selectedCoins: usePage().props.value.coinsSelected,\n            });\n\n            const filterableCoinsList = computed(() => {\n                return props.coinsList.filter((coin) => {\n                    let isPresent = false\n                    state.selectedCoins.forEach((current) => {\n                        if(current.symbol == coin.symbol) isPresent = true\n                    });\n                    return !isPresent\n                })\n            })\n            \n            const chartData = computed(() => {\n                const dates = props.chartDates.map((timestamp) => {\n                    return moment.unix(timestamp)\n                })\n\n                return {\n                    labels: dates,\n                    datasets: [\n                        {\n                            label: '% change',\n                            data: props.chartPrices,\n                            borderColor: '#74b9ff',\n                            backgroundColor: '#74b9ff',\n                            tension: 0.4\n                        },\n                    ],\n                }\n            });\n\n            const chartOptions = ref({\n                responsive: true,\n                scales: {\n                    x: {\n                        type: 'time',\n                        gridLines: {\n                            display:false\n                        },\n                        time: {\n                            minUnit: 'minute',\n                            stepSize: 10,\n                        }\n                    },\n                    y: {\n                        ticks: {\n                            callback: function(value, index, values) {\n                                return value + '%';\n                            }\n                        }\n                    }\n                }\n            })\n\n            function changeRange(range) {\n                state.filterRange = range;\n                this.updateChart();\n            }\n\n            function addCoin(coin) \n            {\n                state.selectedCoins.push(coin);\n                updateChart();\n            }\n\n            function removeCoin(removeCoin) \n            {\n                state.selectedCoins = state.selectedCoins.filter((coin) => (\n                    coin.symbol != removeCoin.symbol\n                ));\n                updateChart();\n            }\n            \n            function updateChart() {\n                Inertia.post('/', {'coins': state.selectedCoins, 'range': state.filterRange})\n            }\n\n            return { chartOptions, chartData, changeRange, updateChart, ...toRefs(state), addCoin, removeCoin, filterableCoinsList };\n        },\n    });\n</script>\n\n<style>\n    body {\n        color: #333;    \n    }\n\n    .chart {\n        height: 400px;\n        margin: 0 auto;\n    }\n\n    .chart-filters {\n        display: flex;\n        justify-content: flex-end;\n        height: 90px;\n        align-items: center;\n    }\n\n    .coin {\n        background: white;\n        border: 1px solid #ddd;\n        padding: 2px;\n    }\n\n    .coin:hover {\n        margin-top: -10px;\n        cursor: pointer;\n    }\n\n    .container {\n        width: 1200px;\n        margin: auto;\n    }\n\n    .head {\n        display: flex;\n        padding: 20px 0 0 50px;\n    }\n\n    .nav-button {\n        margin-right: 80px;\n        background: #f3f3f3;\n        border: 1px solid #ddd;\n        line-height: 24px;\n        color: #333;\n    }\n\n    .coin-filter {\n        display: flex;\n        justify-content: space-between;\n    }\n\n    .selected-coins {\n        width: 145px;\n    }\n\n    .selected-coins .coin-item .remove-coin {\n        display: none;\n        background: #d85757;\n        color: white;\n        border-radius: 50px;\n        padding: 0 7px;\n        position: absolute;\n        z-index: 9999;\n        left: -3px;\n        top: 20px;\n        font-size: 10px;\n    }\n\n    .selected-coins .coin-item:hover .remove-coin {\n        display: block;\n    }\n    \n</style>"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbody {\n        color: #333;\n}\n.container {\n        margin: 0 auto;\n        padding: 0 20px;\n}\n.head {\n        display: flex;\n        padding: 20px 0 0 50px;\n        flex-direction: row-reverse;\n}\n.chart {\n        height: 400px;\n        margin: 0 auto;\n}\n@media (max-width: 800px) {\n.chart {\n            height: 200px;\n}\n}\n.chart-filters {\n        display: flex;\n        justify-content: flex-end;\n        height: 90px;\n        align-items: center;\n}\n.coin {\n        background: white;\n        border: 1px solid #ddd;\n        padding: 2px;\n        position: relative;\n        -webkit-animation-name: moveDown;\n                animation-name: moveDown;\n        -webkit-animation-duration: 0.3s;\n                animation-duration: 0.3s;\n}\n.coin:hover {\n        cursor: pointer;\n        margin-top: -5px;\n        -webkit-animation-name: moveUp;\n                animation-name: moveUp;\n        -webkit-animation-duration: 0.3s;\n                animation-duration: 0.3s;\n}\n@-webkit-keyframes moveUp {\nfrom {margin-top: 0px;}\nto {margin-top: -5px;}\n}\n@keyframes moveUp {\nfrom {margin-top: 0px;}\nto {margin-top: -5px;}\n}\n@-webkit-keyframes moveDown {\nfrom {margin-top: -5px;}\nto {margin-top: 0px;}\n}\n@keyframes moveDown {\nfrom {margin-top: -5px;}\nto {margin-top: 0px;}\n}\n.nav-button {\n        margin-right: 80px;\n        background: #f3f3f3;\n        border: 1px solid #ddd;\n        line-height: 24px;\n        color: #333;\n}\n.coin-filter {\n        display: flex;\n        justify-content: space-between;\n}\n.selected-coins {\n        width: 145px;\n        margin-right: 15px;\n        flex-direction: row-reverse;\n}\n.selected-coins .coin-item .remove-coin {\n        display: none;\n        background: #d85757;\n        color: white;\n        border-radius: 50px;\n        padding: 0 7px;\n        position: absolute;\n        z-index: 9999;\n        left: -3px;\n        top: 20px;\n        font-size: 10px;\n}\n.selected-coins .coin-item:hover .remove-coin {\n        display: block;\n}\n    \n", "",{"version":3,"sources":["webpack://./resources/js/Pages/Welcome.vue"],"names":[],"mappings":";AAmJI;QACI,WAAW;AACf;AAEA;QACI,cAAc;QACd,eAAe;AACnB;AAEA;QACI,aAAa;QACb,sBAAsB;QACtB,2BAA2B;AAC/B;AAEA;QACI,aAAa;QACb,cAAc;AAClB;AAEA;AACI;YACI,aAAa;AACjB;AACJ;AAEA;QACI,aAAa;QACb,yBAAyB;QACzB,YAAY;QACZ,mBAAmB;AACvB;AAEA;QACI,iBAAiB;QACjB,sBAAsB;QACtB,YAAY;QACZ,kBAAkB;QAClB,gCAAwB;gBAAxB,wBAAwB;QACxB,gCAAwB;gBAAxB,wBAAwB;AAC5B;AAEA;QACI,eAAe;QACf,gBAAgB;QAChB,8BAAsB;gBAAtB,sBAAsB;QACtB,gCAAwB;gBAAxB,wBAAwB;AAC5B;AAEA;AACI,MAAM,eAAe,CAAC;AACtB,IAAI,gBAAgB,CAAC;AACzB;AAHA;AACI,MAAM,eAAe,CAAC;AACtB,IAAI,gBAAgB,CAAC;AACzB;AAEA;AACI,MAAM,gBAAgB,CAAC;AACvB,IAAI,eAAe,CAAC;AACxB;AAHA;AACI,MAAM,gBAAgB,CAAC;AACvB,IAAI,eAAe,CAAC;AACxB;AAEA;QACI,kBAAkB;QAClB,mBAAmB;QACnB,sBAAsB;QACtB,iBAAiB;QACjB,WAAW;AACf;AAEA;QACI,aAAa;QACb,8BAA8B;AAClC;AAEA;QACI,YAAY;QACZ,kBAAkB;QAClB,2BAA2B;AAC/B;AAEA;QACI,aAAa;QACb,mBAAmB;QACnB,YAAY;QACZ,mBAAmB;QACnB,cAAc;QACd,kBAAkB;QAClB,aAAa;QACb,UAAU;QACV,SAAS;QACT,eAAe;AACnB;AAEA;QACI,cAAc;AAClB","sourcesContent":["<template>\n    <div class=\"container\">\n        <div class=\"head\">\n            <!-- <a href=\"/coin\" class=\"nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm\">\n                Coin List\n            </a> -->\n            \n            <div class=\"coin-filter\">\n                <div class=\"selected-coins flex\">\n                    <div v-for=\"(coinItem, key) in selectedCoins\">\n                            <img @click=\"removeCoin(coinItem)\" class=\"coin h-10 w-10 rounded-full\" \n                                :style=\"'right: -' + (20 * key) + 'px; z-index:' + (100 - key)\" :src=\"coinItem.iconUrl\" alt=\"\">\n                    </div>\n                </div>\n\n                <Search :class=\"'select-coin'\" :list=\"filterableCoinsList\" @add-coin=\"addCoin\"/>\n            </div>\n        </div>\n    \n        <div class=\"chart-filters\">\n            <div class=\"filter-range\">\n                <FilterRange v-for=\"rangeItem in filterRangeList\" :value=\"rangeItem\" :currentValue=\"filterRange\" @changeRange=\"changeRange($event)\" />\n            </div>\n        </div>\n\n        <LineChart :chartData=\"chartData\" class=\"chart\" :options=\"chartOptions\" />\n\n        <p v-if=\"error\" class=\"w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm\">\n            {{ error }}\n        </p>\n    </div>\n</template>\n\n<script>\n    import { defineComponent, ref, computed, reactive, toRefs } from 'vue';\n    import { LineChart } from 'vue-chart-3';\n    import FilterRange from '../Components/Filters/FilterRange.vue';\n    import FilterCoin from '../Components/Filters/FilterCoin.vue';\n    import Search from '../Components/Filters/Search.vue';\n    import { Inertia } from '@inertiajs/inertia';\n    import { usePage } from '@inertiajs/inertia-vue3'\n    import { months } from '../utils'\n    import moment from 'moment';\n    import 'chartjs-adapter-moment';\n\n\n    export default defineComponent({\n        components: { LineChart, FilterRange, FilterCoin, Search },\n        props: {\n            chartPrices: Array,\n            chartDates: Array,\n            error: String,\n            coinsList: Array, \n            filterRangeList: Array\n        },\n        setup(props) {\n            const state = reactive({\n                filterRange: '3m',\n                selectedCoins: usePage().props.value.coinsSelected,\n            });\n\n            const filterableCoinsList = computed(() => {\n                return props.coinsList.filter((coin) => {\n                    let isPresent = false\n                    state.selectedCoins.forEach((current) => {\n                        if(current.symbol == coin.symbol) isPresent = true\n                    });\n                    return !isPresent\n                })\n            })\n            \n            const chartData = computed(() => {\n                const dates = props.chartDates.map((timestamp) => {\n                    return moment.unix(timestamp)\n                })\n\n                return {\n                    labels: dates,\n                    datasets: [\n                        {\n                            label: '% change',\n                            data: props.chartPrices,\n                            borderColor: '#f3a683',\n                            backgroundColor: '#f3a683',\n                            tension: 0.4\n                        },\n                    ],\n                }\n            });\n\n            const chartOptions = ref({\n                responsive: true,\n                elements: {\n                    point:{\n                        radius: 0\n                    }\n                },\n                scales: {\n                    x: {\n                        type: 'time',\n                        gridLines: {\n                            display:false\n                        },\n                        time: {\n                            minUnit: 'minute',\n                            stepSize: 10,\n                        }\n                    },\n                    y: {\n                        ticks: {\n                            callback: function(value, index, values) {\n                                return value + '%';\n                            }\n                        }\n                    }\n                }\n            })\n\n            function changeRange(range) {\n                state.filterRange = range;\n                this.updateChart();\n            }\n\n            function addCoin(coin) \n            {\n                state.selectedCoins.push(coin);\n                updateChart();\n            }\n\n            function removeCoin(removeCoin) \n            {\n                state.selectedCoins = state.selectedCoins.filter((coin) => (\n                    coin.symbol != removeCoin.symbol\n                ));\n                updateChart();\n            }\n            \n            function updateChart() {\n                Inertia.post('/', {'coins': state.selectedCoins, 'range': state.filterRange})\n            }\n\n            return { chartOptions, chartData, changeRange, updateChart, ...toRefs(state), addCoin, removeCoin, filterableCoinsList };\n        },\n    });\n</script>\n\n<style>\n    body {\n        color: #333;    \n    }\n\n    .container {\n        margin: 0 auto;\n        padding: 0 20px;\n    }\n\n    .head {\n        display: flex;\n        padding: 20px 0 0 50px;\n        flex-direction: row-reverse;\n    }\n\n    .chart {\n        height: 400px;\n        margin: 0 auto;\n    }\n\n    @media (max-width: 800px) {\n        .chart {\n            height: 200px;\n        }\n    }\n\n    .chart-filters {\n        display: flex;\n        justify-content: flex-end;\n        height: 90px;\n        align-items: center;\n    }\n\n    .coin {\n        background: white;\n        border: 1px solid #ddd;\n        padding: 2px;\n        position: relative;\n        animation-name: moveDown;\n        animation-duration: 0.3s;\n    }\n\n    .coin:hover {\n        cursor: pointer;\n        margin-top: -5px;\n        animation-name: moveUp;\n        animation-duration: 0.3s;\n    }\n\n    @keyframes moveUp {\n        from {margin-top: 0px;}\n        to {margin-top: -5px;}\n    }\n\n    @keyframes moveDown {\n        from {margin-top: -5px;}\n        to {margin-top: 0px;}\n    }\n\n    .nav-button {\n        margin-right: 80px;\n        background: #f3f3f3;\n        border: 1px solid #ddd;\n        line-height: 24px;\n        color: #333;\n    }\n\n    .coin-filter {\n        display: flex;\n        justify-content: space-between;\n    }\n\n    .selected-coins {\n        width: 145px;\n        margin-right: 15px;\n        flex-direction: row-reverse;\n    }\n\n    .selected-coins .coin-item .remove-coin {\n        display: none;\n        background: #d85757;\n        color: white;\n        border-radius: 50px;\n        padding: 0 7px;\n        position: absolute;\n        z-index: 9999;\n        left: -3px;\n        top: 20px;\n        font-size: 10px;\n    }\n\n    .selected-coins .coin-item:hover .remove-coin {\n        display: block;\n    }\n    \n</style>"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -73376,6 +73405,36 @@ module.exports = function getSideChannel() {
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_style_index_0_id_2b7fa9f6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_style_index_0_id_2b7fa9f6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_style_index_0_id_2b7fa9f6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/Search.vue?vue&type=style&index=0&id=a0fb0932&scoped=true&lang=css":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/Search.vue?vue&type=style&index=0&id=a0fb0932&scoped=true&lang=css ***!
@@ -74107,12 +74166,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _FilterRange_vue_vue_type_template_id_2b7fa9f6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FilterRange.vue?vue&type=template&id=2b7fa9f6 */ "./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6");
+/* harmony import */ var _FilterRange_vue_vue_type_template_id_2b7fa9f6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FilterRange.vue?vue&type=template&id=2b7fa9f6&scoped=true */ "./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6&scoped=true");
 /* harmony import */ var _FilterRange_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FilterRange.vue?vue&type=script&lang=js */ "./resources/js/Components/Filters/FilterRange.vue?vue&type=script&lang=js");
+/* harmony import */ var _FilterRange_vue_vue_type_style_index_0_id_2b7fa9f6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css */ "./resources/js/Components/Filters/FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css");
 
 
 
-_FilterRange_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _FilterRange_vue_vue_type_template_id_2b7fa9f6__WEBPACK_IMPORTED_MODULE_0__.render
+
+;
+_FilterRange_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _FilterRange_vue_vue_type_template_id_2b7fa9f6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_FilterRange_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__scopeId = "data-v-2b7fa9f6"
 /* hot reload */
 if (false) {}
 
@@ -76148,18 +76211,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6 ***!
-  \***************************************************************************************/
+/***/ "./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6&scoped=true":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6&scoped=true ***!
+  \***************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_template_id_2b7fa9f6__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_template_id_2b7fa9f6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_template_id_2b7fa9f6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FilterRange.vue?vue&type=template&id=2b7fa9f6 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_template_id_2b7fa9f6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FilterRange.vue?vue&type=template&id=2b7fa9f6&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=template&id=2b7fa9f6&scoped=true");
 
 
 /***/ }),
@@ -76944,6 +77007,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_template_id_317d1a6e__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_template_id_317d1a6e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Welcome.vue?vue&type=template&id=317d1a6e */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Welcome.vue?vue&type=template&id=317d1a6e");
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/Filters/FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css":
+/*!*****************************************************************************************************************!*\
+  !*** ./resources/js/Components/Filters/FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css ***!
+  \*****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_style_index_0_id_2b7fa9f6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/Filters/FilterRange.vue?vue&type=style&index=0&id=2b7fa9f6&scoped=true&lang=css");
 
 
 /***/ }),

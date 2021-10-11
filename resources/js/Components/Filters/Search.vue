@@ -2,7 +2,7 @@
     <div v-click-outside="closeDropdown">
         <input ref="searchString" v-model="state.searchString" @click="toggleDropdown()" @keyup="keyUp($event)" type="text" class="searchInput" />
         <div v-show="state.showDropdown" class="dropdown">
-            <div v-for="item in visibleCoins" class="item flex" :class="item.selected ? 'item-selected' : null">
+            <div v-for="item in visibleCoins" @click="addCoin(item)" class="item flex" :class="item.selected ? 'item-selected' : null">
                 <div>
                     <img :src="item.iconUrl" class="h-5 w-5 rounded-full">
                 </div>
@@ -43,6 +43,11 @@
     .item:hover {
         background: #ddd;
         cursor: pointer;
+    }
+
+    @keyframes example {
+        from {background-color: red;}
+        to {background-color: yellow;}
     }
 
 </style>
@@ -92,7 +97,7 @@
                 }
 
                 if(event.key === KEY_FILTER) {
-                    addCoin()
+                    addCoin(state.filteredList[state.selectionPosition])
                     return;
                 }
 
@@ -114,8 +119,8 @@
                 }
             }
 
-            function addCoin() {
-                context.emit('addCoin', state.filteredList[state.selectionPosition])
+            function addCoin(item) {
+                context.emit('addCoin', item)
                 state.showDropdown = false;
                 resetPosition()
             }
@@ -142,7 +147,7 @@
                 state.selectionPosition = -1;
             }
 
-            return { state, toggleDropdown, keyUp, visibleCoins, closeDropdown }
+            return { state, toggleDropdown, keyUp, visibleCoins, closeDropdown, addCoin }
         },
     })
 </script>

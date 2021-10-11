@@ -1,13 +1,27 @@
 <template>
     <a @click="$emit('changeRange', value)" 
         :class="[
-            currentValue === value ? 'bg-indigo-50 border-indigo-500' : null, 
+            currentValue === value ? 'btn-filter-selected' : null, 
             side ? 'rounded-' + side + '-md' : null
         ]" 
-        class="z-10 relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" href="#" >
+        class="btn-filter" href="#" >
         {{ value }}
     </a>
 </template>
+
+<style scoped>
+    .btn-filter {
+        padding: 5px 8px;
+        background: #efefef;
+        color: #303952;
+        margin: 0 4px;
+    }
+
+    .btn-filter-selected {
+        background: #f3a683;
+        font-weight: bold;
+    }
+</style>
 
 <script>
 import { defineComponent } from 'vue';

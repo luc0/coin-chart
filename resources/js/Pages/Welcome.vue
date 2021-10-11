@@ -1,14 +1,15 @@
 <template>
     <div class="container">
         <div class="head">
-            <a href="/coin" class="nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+            <!-- <a href="/coin" class="nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
                 Coin List
-            </a>
+            </a> -->
             
             <div class="coin-filter">
                 <div class="selected-coins flex">
                     <div v-for="(coinItem, key) in selectedCoins">
-                            <img @click="removeCoin(coinItem)" class="coin absolute h-10 w-10 rounded-full" :style="'margin-left: ' + (25 * key) + 'px'" :src="coinItem.iconUrl" alt="">
+                            <img @click="removeCoin(coinItem)" class="coin h-10 w-10 rounded-full" 
+                                :style="'right: -' + (20 * key) + 'px; z-index:' + (100 - key)" :src="coinItem.iconUrl" alt="">
                     </div>
                 </div>
 
@@ -79,8 +80,8 @@
                         {
                             label: '% change',
                             data: props.chartPrices,
-                            borderColor: '#74b9ff',
-                            backgroundColor: '#74b9ff',
+                            borderColor: '#f3a683',
+                            backgroundColor: '#f3a683',
                             tension: 0.4
                         },
                     ],
@@ -89,6 +90,11 @@
 
             const chartOptions = ref({
                 responsive: true,
+                elements: {
+                    point:{
+                        radius: 0
+                    }
+                },
                 scales: {
                     x: {
                         type: 'time',
@@ -143,9 +149,26 @@
         color: #333;    
     }
 
+    .container {
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .head {
+        display: flex;
+        padding: 20px 0 0 50px;
+        flex-direction: row-reverse;
+    }
+
     .chart {
         height: 400px;
         margin: 0 auto;
+    }
+
+    @media (max-width: 800px) {
+        .chart {
+            height: 200px;
+        }
     }
 
     .chart-filters {
@@ -159,21 +182,26 @@
         background: white;
         border: 1px solid #ddd;
         padding: 2px;
+        position: relative;
+        animation-name: moveDown;
+        animation-duration: 0.3s;
     }
 
     .coin:hover {
-        margin-top: -10px;
         cursor: pointer;
+        margin-top: -5px;
+        animation-name: moveUp;
+        animation-duration: 0.3s;
     }
 
-    .container {
-        width: 1200px;
-        margin: auto;
+    @keyframes moveUp {
+        from {margin-top: 0px;}
+        to {margin-top: -5px;}
     }
 
-    .head {
-        display: flex;
-        padding: 20px 0 0 50px;
+    @keyframes moveDown {
+        from {margin-top: -5px;}
+        to {margin-top: 0px;}
     }
 
     .nav-button {
@@ -191,6 +219,8 @@
 
     .selected-coins {
         width: 145px;
+        margin-right: 15px;
+        flex-direction: row-reverse;
     }
 
     .selected-coins .coin-item .remove-coin {
