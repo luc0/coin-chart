@@ -1,7 +1,7 @@
 ## Coin chart
 
 A simple chart showing crypto historical price variantions (%), with filters.
-The % variation are grouped by selected coins.
+The % variation is the averga of the selected coins.
 
 Made with [Laravel JetStream](https://jetstream.laravel.com/2.x/stacks/inertia.html).
 Using inertia + Vue + Tailwind
