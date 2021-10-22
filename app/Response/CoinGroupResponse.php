@@ -27,7 +27,7 @@ class CoinGroupResponse
         return $this->responses[0]->json('message'); // TODO: show all messages.
     }
 
-    public function getPriceChanges(): array
+    public function getPriceChanges(int $grouped): array
     {
         // TODO: should call a service, with this logic. Refactor to collection map.
         $allChanges = [];
@@ -36,7 +36,13 @@ class CoinGroupResponse
             $allChanges[$coin] = $coinResponse->getPriceChanges();
         }
 
-        return $this->averageChanges($allChanges)->toArray();
+        if($grouped) {
+            return [
+                'average' => $this->averageChanges($allChanges)->toArray()
+            ];
+        }
+
+        return $allChanges;
     }
 
     public function getDates(): array

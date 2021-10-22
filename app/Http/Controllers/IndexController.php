@@ -15,16 +15,20 @@ class IndexController extends Controller
         
         $range = request()->get('range');
         $coins = request()->get('coins') ?? [];
+        $grouped = request()->get('grouped') ?? true;
 
         $responses = $coinRanking->getCoinsPriceHistory($range, $coins);
         $success = $responses->allSuccessful();
 
+        // $chartValues = $grouped ? $responses->getPriceChanges($grouped) : null;
+// dd($responses->getPriceChanges($grouped));
         $data = [
             'coinsList' => $coinRanking->listCoins($coins), // coinList
             'coinsSelected' => $coins, // currentCoins
+            'grouped' => true,
             'filterRange' => $range, // currentRange
             'filterRangeList' => self::RANGES, // rangeList
-            'chartPrices' => $success ? $responses->getPriceChanges() : null, // prices
+            'chartPrices' => $success ? $responses->getPriceChanges($grouped) : null, // prices
             'chartDates' => $success ? $responses->getDates() : null, // time
             'error' => $success ? null : $responses->errorMessage()
         ];

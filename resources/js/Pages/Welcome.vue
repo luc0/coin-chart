@@ -4,7 +4,7 @@
             <!-- <a href="/coin" class="nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
                 Coin List
             </a> -->
-            
+            {{ grouped }}
             <div class="coin-filter">
                 <div class="selected-coins flex">
                     <div v-for="(coinItem, key) in selectedCoins">
@@ -14,6 +14,7 @@
                 </div>
 
                 <Search :class="'select-coin'" :list="filterableCoinsList" @add-coin="addCoin"/>
+                Agrupar <input type="checkbox" :checked="grouped" @click="changeGrouped()">
             </div>
         </div>
     
@@ -42,7 +43,9 @@
     import { months } from '../utils'
     import moment from 'moment';
     import 'chartjs-adapter-moment';
+    import collect from 'collect.js';
 
+    let PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6', '#f8a5c2', '#63cdda', '#ea8685']
 
     export default defineComponent({
         components: { LineChart, FilterRange, FilterCoin, Search },
@@ -51,12 +54,14 @@
             chartDates: Array,
             error: String,
             coinsList: Array, 
-            filterRangeList: Array
+            filterRangeList: Array,
+            grouped: Boolean
         },
         setup(props) {
             const state = reactive({
                 filterRange: '3m',
                 selectedCoins: usePage().props.value.coinsSelected,
+                grouped: props.grouped
             });
 
             const filterableCoinsList = computed(() => {
@@ -74,17 +79,27 @@
                     return moment.unix(timestamp)
                 })
 
+                let datasets = [];
+                let datasetCount = -1
+
+                if (props.chartPrices) {
+                    datasets = collect(props.chartPrices).map((prices, index) => {
+                        datasetCount++
+                        console.log(datasetCount)
+                        return {
+                            label: index,
+                            data: prices,
+                            borderColor: PALETTE[datasetCount],
+                            backgroundColor: PALETTE[datasetCount],
+                            tension: 0.4
+                        }
+                        
+                    }).toArray()
+                }
+                
                 return {
                     labels: dates,
-                    datasets: [
-                        {
-                            label: '% change',
-                            data: props.chartPrices,
-                            borderColor: '#f3a683',
-                            backgroundColor: '#f3a683',
-                            tension: 0.4
-                        },
-                    ],
+                    datasets: datasets,
                 }
             });
 
@@ -134,12 +149,29 @@
                 ));
                 updateChart();
             }
+
+            function changeGrouped()
+            {
+                state.grouped = !state.grouped
+                updateChart()
+            }
             
             function updateChart() {
-                Inertia.post('/', {'coins': state.selectedCoins, 'range': state.filterRange})
+                Inertia.post('/', {
+                    'coins': state.selectedCoins, 
+                    'range': state.filterRange,
+                    'grouped': state.grouped
+                })
             }
 
-            return { chartOptions, chartData, changeRange, updateChart, ...toRefs(state), addCoin, removeCoin, filterableCoinsList };
+            Object.map = function (obj, fn, ctx) {
+                return Object.keys(obj).reduce((a, b) => {
+                    a[b] = fn.call(ctx || null, b, obj[b]);
+                    return a;
+                }, {});
+            };
+
+            return { chartOptions, chartData, changeRange, changeGrouped, updateChart, ...toRefs(state), addCoin, removeCoin, filterableCoinsList };
         },
     });
 </script>
