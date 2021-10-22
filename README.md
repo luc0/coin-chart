@@ -1,9 +1,13 @@
 ## Coin chart
 
-A simple chart showing bitcoin historical price, with filters.
+A simple chart showing crypto historical price variantions (%), with filters.
+The % variation is the average of the selected coins.
+
 Made with [Laravel JetStream](https://jetstream.laravel.com/2.x/stacks/inertia.html).
 Using inertia + Vue + Tailwind
 
-For Crypto data I use [CoinRanking API](https://developers.coinranking.com/api).
+Data from [CoinRanking API](https://developers.coinranking.com/api).
 
-https://flatuicolors.com/palette/ru
+UI colors Palette: https://flatuicolors.com/palette/ru
+
+![image](https://user-images.githubusercontent.com/3100356/136844424-193f57c9-3c4b-4bbc-87ec-9730e8644b97.png)
