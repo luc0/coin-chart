@@ -24,6 +24,7 @@
 </style>
 
 <script>
+import "./filterRange.scss";
 import { defineComponent } from 'vue';
 
 export default defineComponent({

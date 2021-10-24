@@ -4,17 +4,21 @@
             <!-- <a href="/coin" class="nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
                 Coin List
             </a> -->
-            {{ grouped }}
-            <div class="coin-filter">
-                <div class="selected-coins flex">
-                    <div v-for="(coinItem, key) in selectedCoins">
+            <div class="coin-settings">
+                <div class="coin-filter">
+                    <div class="selected-coins flex">
+                        <div v-for="(coinItem, key) in selectedCoins">
                             <img @click="removeCoin(coinItem)" class="coin h-10 w-10 rounded-full" 
-                                :style="'right: -' + (20 * key) + 'px; z-index:' + (100 - key)" :src="coinItem.iconUrl" alt="">
+                                    :style="'right: -' + (20 * key) + 'px; z-index:' + (100 - key)" :src="coinItem.iconUrl" alt="">
+                        </div>
                     </div>
-                </div>
 
-                <Search :class="'select-coin'" :list="filterableCoinsList" @add-coin="addCoin"/>
-                Agrupar <input type="checkbox" :checked="grouped" @click="changeGrouped()">
+                    <Search :class="'select-coin'" :list="filterableCoinsList" @add-coin="addCoin"/>
+                </div>
+                <div class="coin-grouping">
+                    <input id="grouped" type="checkbox" :checked="grouped" @click="changeGrouped()"> 
+                    <label for="grouped">Grouped</label>
+                </div>
             </div>
         </div>
     
@@ -33,11 +37,12 @@
 </template>
 
 <script>
+    import "../../css/welcome.scss";
     import { defineComponent, ref, computed, reactive, toRefs } from 'vue';
     import { LineChart } from 'vue-chart-3';
-    import FilterRange from '../Components/Filters/FilterRange.vue';
-    import FilterCoin from '../Components/Filters/FilterCoin.vue';
-    import Search from '../Components/Filters/Search.vue';
+    import FilterRange from '../Components/FilterRange/FilterRange.vue';
+    import FilterCoin from '../Components/FilterCoin/FilterCoin.vue';
+    import Search from '../Components/SearchCoin/SearchCoin.vue';
     import { Inertia } from '@inertiajs/inertia';
     import { usePage } from '@inertiajs/inertia-vue3'
     import { months } from '../utils'
@@ -177,99 +182,6 @@
 </script>
 
 <style>
-    body {
-        color: #333;    
-    }
-
-    .container {
-        margin: 0 auto;
-        padding: 0 20px;
-    }
-
-    .head {
-        display: flex;
-        padding: 20px 0 0 50px;
-        flex-direction: row-reverse;
-    }
-
-    .chart {
-        height: 400px;
-        margin: 0 auto;
-    }
-
-    @media (max-width: 800px) {
-        .chart {
-            height: 200px;
-        }
-    }
-
-    .chart-filters {
-        display: flex;
-        justify-content: flex-end;
-        height: 90px;
-        align-items: center;
-    }
-
-    .coin {
-        background: white;
-        border: 1px solid #ddd;
-        padding: 2px;
-        position: relative;
-        animation-name: moveDown;
-        animation-duration: 0.3s;
-    }
-
-    .coin:hover {
-        cursor: pointer;
-        margin-top: -5px;
-        animation-name: moveUp;
-        animation-duration: 0.3s;
-    }
-
-    @keyframes moveUp {
-        from {margin-top: 0px;}
-        to {margin-top: -5px;}
-    }
-
-    @keyframes moveDown {
-        from {margin-top: -5px;}
-        to {margin-top: 0px;}
-    }
-
-    .nav-button {
-        margin-right: 80px;
-        background: #f3f3f3;
-        border: 1px solid #ddd;
-        line-height: 24px;
-        color: #333;
-    }
-
-    .coin-filter {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .selected-coins {
-        width: 145px;
-        margin-right: 15px;
-        flex-direction: row-reverse;
-    }
-
-    .selected-coins .coin-item .remove-coin {
-        display: none;
-        background: #d85757;
-        color: white;
-        border-radius: 50px;
-        padding: 0 7px;
-        position: absolute;
-        z-index: 9999;
-        left: -3px;
-        top: 20px;
-        font-size: 10px;
-    }
-
-    .selected-coins .coin-item:hover .remove-coin {
-        display: block;
-    }
+    
     
 </style>

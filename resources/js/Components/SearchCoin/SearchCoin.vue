@@ -1,6 +1,14 @@
 <template>
     <div v-click-outside="closeDropdown">
-        <input ref="searchString" v-model="state.searchString" @click="toggleDropdown()" @keyup="keyUp($event)" type="text" class="searchInput" />
+        <input 
+            ref="searchString" 
+            v-model="state.searchString" 
+            @click="toggleDropdown()" 
+            @keyup="keyUp($event)" 
+            type="text" 
+            class="searchInput"
+            placeholder="search"
+            />
         <div v-show="state.showDropdown" class="dropdown">
             <div v-for="item in visibleCoins" @click="addCoin(item)" class="item flex" :class="item.selected ? 'item-selected' : null">
                 <div>
@@ -14,10 +22,18 @@
 
 <style scoped>
     .searchInput {
+        font-family: 'Material Icons';
         font-size: 18px;
-        width: 100px;
+        width: 84px;
         border: 1px solid #ddd;
         border-radius: 20px;
+        transition: width 0.3s ease-out;
+    }
+
+    .searchInput:focus {
+        font-family: inherit;
+        width: 160px;
+        transition: width 0.3s ease-out;
     }
 
     .dropdown {
