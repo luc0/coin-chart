@@ -8,7 +8,7 @@
                 <div class="coin-filter">
                     <div class="selected-coins flex">
                         <div v-for="(coinItem, key) in selectedCoins">
-                            <img @click="removeCoin(coinItem)" class="coin h-10 w-10 rounded-full" 
+                            <img @click="removeCoin(coinItem)" class="coin h-10 w-10 rounded-full"
                                     :style="'right: -' + (20 * key) + 'px; z-index:' + (100 - key)" :src="coinItem.iconUrl" alt="">
                         </div>
                     </div>
@@ -16,12 +16,12 @@
                     <Search :class="'select-coin'" :list="filterableCoinsList" @add-coin="addCoin"/>
                 </div>
                 <div class="coin-grouping">
-                    <input id="grouped" type="checkbox" :checked="grouped" @click="changeGrouped()"> 
+                    <input id="grouped" type="checkbox" :checked="grouped" @click="changeGrouped()">
                     <label for="grouped">Grouped</label>
                 </div>
             </div>
         </div>
-    
+
         <div class="chart-filters">
             <div class="filter-range">
                 <FilterRange v-for="rangeItem in filterRangeList" :value="rangeItem" :currentValue="filterRange" @changeRange="changeRange($event)" />
@@ -58,7 +58,7 @@
             chartPrices: Array,
             chartDates: Array,
             error: String,
-            coinsList: Array, 
+            coinsList: Array,
             filterRangeList: Array,
             grouped: Boolean
         },
@@ -78,7 +78,7 @@
                     return !isPresent
                 })
             })
-            
+
             const chartData = computed(() => {
                 const dates = props.chartDates.map((timestamp) => {
                     return moment.unix(timestamp)
@@ -90,18 +90,26 @@
                 if (props.chartPrices) {
                     datasets = collect(props.chartPrices).map((prices, index) => {
                         datasetCount++
-                        console.log(datasetCount)
+                        console.log('>', datasetCount, props.chartPrices)
                         return {
                             label: index,
                             data: prices,
                             borderColor: PALETTE[datasetCount],
                             backgroundColor: PALETTE[datasetCount],
-                            tension: 0.4
+                            tension: 0.4,
+                            options: {
+                                scales: {
+                                    y: {
+                                        display: true,
+                                        type: 'logarithmic'
+                                    }
+                                }
+                            }
                         }
-                        
+
                     }).toArray()
                 }
-                
+                console.log('datasets', datasets)
                 return {
                     labels: dates,
                     datasets: datasets,
@@ -141,13 +149,13 @@
                 this.updateChart();
             }
 
-            function addCoin(coin) 
+            function addCoin(coin)
             {
                 state.selectedCoins.push(coin);
                 updateChart();
             }
 
-            function removeCoin(removeCoin) 
+            function removeCoin(removeCoin)
             {
                 state.selectedCoins = state.selectedCoins.filter((coin) => (
                     coin.symbol != removeCoin.symbol
@@ -160,10 +168,10 @@
                 state.grouped = !state.grouped
                 updateChart()
             }
-            
+
             function updateChart() {
                 Inertia.post('/', {
-                    'coins': state.selectedCoins, 
+                    'coins': state.selectedCoins,
                     'range': state.filterRange,
                     'grouped': state.grouped
                 })
@@ -182,6 +190,6 @@
 </script>
 
 <style>
-    
-    
+
+
 </style>

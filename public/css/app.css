@@ -1152,9 +1152,6 @@ select {
 .z-40 {
 	z-index: 40;
 }
-.z-10 {
-	z-index: 10;
-}
 .col-span-6 {
 	grid-column: span 6 / span 6;
 }
@@ -1545,10 +1542,6 @@ select {
 .border-gray-400 {
 	--tw-border-opacity: 1;
 	border-color: rgba(156, 163, 175, var(--tw-border-opacity));
-}
-.border-indigo-500 {
-	--tw-border-opacity: 1;
-	border-color: rgba(99, 102, 241, var(--tw-border-opacity));
 }
 .bg-white {
 	--tw-bg-opacity: 1;
