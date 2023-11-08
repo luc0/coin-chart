@@ -18,12 +18,12 @@ class CoinResponse
     function __construct(Response $response)
     {
         $this->response = $response;
-        
+
         $this->prices = collect(Arr::get($response, self::RESPONSE_DATA))->pluck('price'); // TODO: Could extend collection with dotPluck
         $this->dates = collect(Arr::get($response, self::RESPONSE_DATA))->pluck('timestamp');
     }
 
-    public function failed() 
+    public function failed()
     {
         $this->response->failed();
     }
@@ -40,7 +40,7 @@ class CoinResponse
 
     public function getFirstPrice(): float
     {
-        return $this->prices->first();
+        return $this->prices->last();
     }
 
     public function getPriceChanges(): array
