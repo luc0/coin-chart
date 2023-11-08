@@ -10,4 +10,4 @@ Data from [CoinRanking API](https://developers.coinranking.com/api).
 
 UI colors Palette: https://flatuicolors.com/palette/ru
 
-![image](https://user-images.githubusercontent.com/3100356/136844424-193f57c9-3c4b-4bbc-87ec-9730e8644b97.png)
+<img width="1295" alt="image" src="https://github.com/luc0/coin-chart/assets/3100356/b9433ae4-ab17-46c8-90e1-348660b75029">
