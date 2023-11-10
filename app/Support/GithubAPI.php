@@ -23,7 +23,7 @@ class GithubAPI
     // TODO: recorrer todas las pages.
     public function getCommitsResponse(string $owner, string $repository, ?string $since = null, ?int $currentPage = 1): GithubCommitsResponse
     {
-        $response = Http::withToken('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') // TODO: token en .env del server (expira en 30d)
+        $response = Http::withToken(config('github.token'))
             ->get($this->getCommitsEndpoint($owner, $repository), [
             'since' => $since ? Carbon::parse($since)->toIso8601ZuluString() : null,
             'X-GitHub-Api-Version' => self::API_VERSION_HEADER,
