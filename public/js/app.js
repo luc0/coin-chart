@@ -5155,7 +5155,9 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
     error: String,
     coinsList: Array,
     filterRangeList: Array,
-    grouped: Boolean
+    grouped: Boolean,
+    chartGithubCommits: Array,
+    chartGithubCommitsDates: Array
   },
   setup: function setup(props) {
     var state = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
@@ -5174,15 +5176,15 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
     });
     var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       var dates = props.chartDates.map(function (timestamp) {
-        return moment__WEBPACK_IMPORTED_MODULE_9___default().unix(timestamp);
+        console.log('date coin', timestamp);
+        return moment__WEBPACK_IMPORTED_MODULE_9___default().from(timestamp);
       });
       var datasets = [];
-      var datasetCount = -1;
+      var datasetCount = -1; // console.log('props.chartPrices', props.chartPrices.average)
 
       if (props.chartPrices) {
         datasets = collect_js__WEBPACK_IMPORTED_MODULE_11___default()(props.chartPrices).map(function (prices, index) {
           datasetCount++;
-          console.log('>', datasetCount, props.chartPrices);
           return {
             label: index,
             data: prices,
@@ -5201,7 +5203,8 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
         }).toArray();
       }
 
-      console.log('datasets', datasets);
+      console.log('datasets COIN', datasets);
+      console.log('dates', dates);
       return {
         labels: dates,
         datasets: datasets
@@ -5230,6 +5233,54 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
             callback: function callback(value, index, values) {
               return value + '%';
             }
+          }
+        }
+      }
+    });
+    var chartGithubCommitsData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      if (!props.chartGithubCommits) {
+        return;
+      }
+
+      var dates = props.chartGithubCommitsDates.map(function (timestamp) {
+        return moment__WEBPACK_IMPORTED_MODULE_9___default()(timestamp);
+      });
+      var datasets = [];
+      var datasetCount = -1;
+
+      if (props.chartGithubCommits) {
+        datasets = collect_js__WEBPACK_IMPORTED_MODULE_11___default()(props.chartGithubCommits).map(function (commitCount, index) {
+          return {
+            label: index,
+            data: commitCount,
+            borderColor: PALETTE[datasetCount],
+            backgroundColor: PALETTE[datasetCount],
+            tension: 0.4
+          };
+        }).toArray();
+      }
+
+      return {
+        labels: dates,
+        datasets: datasets
+      };
+    });
+    var chartGithubCommitsOptions = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({
+      responsive: true,
+      elements: {
+        point: {
+          radius: 0
+        }
+      },
+      scales: {
+        x: {
+          type: 'time',
+          gridLines: {
+            display: false
+          },
+          time: {
+            minUnit: 'day',
+            stepSize: 1
           }
         }
       }
@@ -5281,7 +5332,9 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
     }, (0,vue__WEBPACK_IMPORTED_MODULE_1__.toRefs)(state)), {}, {
       addCoin: addCoin,
       removeCoin: removeCoin,
-      filterableCoinsList: filterableCoinsList
+      filterableCoinsList: filterableCoinsList,
+      chartGithubCommitsData: chartGithubCommitsData,
+      chartGithubCommitsOptions: chartGithubCommitsOptions
     });
   }
 }));
@@ -9942,6 +9995,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 256
   /* UNKEYED_FRAGMENT */
   ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LineChart, {
+    chartData: _ctx.chartGithubCommitsData,
+    "class": "chart",
+    options: _ctx.chartGithubCommitsOptions
+  }, null, 8
+  /* PROPS */
+  , ["chartData", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LineChart, {
     chartData: _ctx.chartData,
     "class": "chart",
     options: _ctx.chartOptions

@@ -3,12 +3,10 @@
 namespace App\Support;
 
 use App\Response\CoinGroupResponse;
-use Carbon\Carbon;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use PhpParser\Node\Expr\Cast\Array_;
 
-class CoinRanking
+class CoinRankingAPI
 {
     private const COIN_RANKING_API_URL = 'https://api.coinranking.com/v2/';
     private $coinIds = [];
@@ -25,13 +23,13 @@ class CoinRanking
         ]);
     }
 
-    public function getCoinsPriceHistory(?string $period = '3m', array $coins): CoinGroupResponse 
+    public function getCoinsPriceHistory(?string $period = '3m', array $coins): CoinGroupResponse
     {
         $history = [];
 
         foreach($coins as $coin) {
             $response =  Http::get(
-                $this->getCoinHistoryEndpoint($coin['uuid']), 
+                $this->getCoinHistoryEndpoint($coin['uuid']),
                 [
                     'timePeriod' => $period,
                     'x-access-token' => 'coinranking5e43443bd45a48ac38744d5d22a78867b3f2d8fffc73660f'

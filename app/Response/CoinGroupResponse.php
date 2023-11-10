@@ -2,6 +2,8 @@
 
 namespace App\Response;
 
+use App\Support\CoinResponse;
+
 class CoinGroupResponse
 {
     private $responses;
@@ -33,6 +35,7 @@ class CoinGroupResponse
         $allChanges = [];
 
         foreach($this->responses as $coin => $coinResponse) {
+            /** @var CoinResponse $coinResponse */
             $allChanges[$coin] = $coinResponse->getPriceChanges();
         }
 
