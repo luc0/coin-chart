@@ -28,6 +28,7 @@
             </div>
         </div>
 
+        <LineChart :chartData="chartGithubCommitsData" class="chart" :options="chartGithubCommitsOptions" />
         <LineChart :chartData="chartData" class="chart" :options="chartOptions" />
 
         <p v-if="error" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
@@ -60,7 +61,9 @@
             error: String,
             coinsList: Array,
             filterRangeList: Array,
-            grouped: Boolean
+            grouped: Boolean,
+            chartGithubCommits: Array,
+            chartGithubCommitsDates: Array
         },
         setup(props) {
             const state = reactive({
@@ -81,16 +84,17 @@
 
             const chartData = computed(() => {
                 const dates = props.chartDates.map((timestamp) => {
-                    return moment.unix(timestamp)
+                    console.log('date coin', timestamp)
+                    return moment.from(timestamp)
                 })
 
                 let datasets = [];
                 let datasetCount = -1
-
+                // console.log('props.chartPrices', props.chartPrices.average)
                 if (props.chartPrices) {
                     datasets = collect(props.chartPrices).map((prices, index) => {
                         datasetCount++
-                        console.log('>', datasetCount, props.chartPrices)
+
                         return {
                             label: index,
                             data: prices,
@@ -109,7 +113,8 @@
 
                     }).toArray()
                 }
-                console.log('datasets', datasets)
+                console.log('datasets COIN', datasets)
+                console.log('dates', dates)
                 return {
                     labels: dates,
                     datasets: datasets,
@@ -141,6 +146,58 @@
                             }
                         }
                     }
+                }
+            })
+
+            const chartGithubCommitsData = computed(() => {
+                if (!props.chartGithubCommits) {
+                    return
+                }
+
+                const dates = props.chartGithubCommitsDates.map((timestamp) => {
+                    return moment(timestamp)
+                })
+
+                let datasets = [];
+                let datasetCount = -1
+
+                if (props.chartGithubCommits) {
+                    datasets = collect(props.chartGithubCommits).map((commitCount, index) => {
+                        return {
+                            label: index,
+                            data: commitCount,
+                            borderColor: PALETTE[datasetCount],
+                            backgroundColor: PALETTE[datasetCount],
+                            tension: 0.4,
+                        }
+
+                    }).toArray()
+                }
+
+                return {
+                    labels: dates,
+                    datasets: datasets,
+                }
+            });
+
+            const chartGithubCommitsOptions = ref({
+                responsive: true,
+                elements: {
+                    point:{
+                        radius: 0
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        gridLines: {
+                            display: false
+                        },
+                        time: {
+                            minUnit: 'day',
+                            stepSize: 1,
+                        }
+                    },
                 }
             })
 
@@ -184,7 +241,19 @@
                 }, {});
             };
 
-            return { chartOptions, chartData, changeRange, changeGrouped, updateChart, ...toRefs(state), addCoin, removeCoin, filterableCoinsList };
+            return {
+                chartOptions,
+                chartData,
+                changeRange,
+                changeGrouped,
+                updateChart,
+                ...toRefs(state),
+                addCoin,
+                removeCoin,
+                filterableCoinsList,
+                chartGithubCommitsData,
+                chartGithubCommitsOptions
+            };
         },
     });
 </script>
