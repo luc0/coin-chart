@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\RangeEnum;
 use App\Services\Cryptos;
 use App\Support\CoinRankingAPI;
 use App\Support\GithubAPI;
@@ -16,7 +17,7 @@ class IndexController extends Controller
         $coinRankingAPI = new CoinRankingAPI();
         $githubAPI = new GithubAPI();
 
-        $range = request()->get('range');
+        $range = RangeEnum::from(request()->get('range') ?? '3m');
         $coins = request()->get('coins') ?? [];
         $grouped = request()->get('grouped') ?? true;
 
@@ -26,11 +27,9 @@ class IndexController extends Controller
         // $chartValues = $grouped ? $coinRankingPriceResponse->getPriceChanges($grouped) : null;
         // dd($coinRankingPriceResponse->getPriceChanges($grouped));
 //        dd($coinRanking->listCoins($coins))
+        $githubCommitsDates = $cryptoService->getCommitsDates($coins, $range);
 
-//        $cryptoService->syncGithubData();
-        $githubCommitsDates = $cryptoService->getCommitsDates();
-        $githubCommitsCount = $cryptoService->getCommitsCount();
-//        dd($githubCommitsDates, $githubCommitsCount);
+        $githubCommitsCount = $cryptoService->getCommitsCount($coins, $range);
 
         $data = [
             'coinsList' => $coinRankingAPI->listCoins($coins), // coinList

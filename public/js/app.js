@@ -5176,11 +5176,11 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
     });
     var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       var dates = props.chartDates.map(function (timestamp) {
-        console.log('date coin', timestamp);
-        return moment__WEBPACK_IMPORTED_MODULE_9___default().from(timestamp);
+        console.log('timestamp', timestamp);
+        return moment__WEBPACK_IMPORTED_MODULE_9___default()(timestamp).format("YYYY-MM-DDTHH:mm:ss");
       });
       var datasets = [];
-      var datasetCount = -1; // console.log('props.chartPrices', props.chartPrices.average)
+      var datasetCount = -1;
 
       if (props.chartPrices) {
         datasets = collect_js__WEBPACK_IMPORTED_MODULE_11___default()(props.chartPrices).map(function (prices, index) {
@@ -5190,21 +5190,11 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
             data: prices,
             borderColor: PALETTE[datasetCount],
             backgroundColor: PALETTE[datasetCount],
-            tension: 0.4,
-            options: {
-              scales: {
-                y: {
-                  display: true,
-                  type: 'logarithmic'
-                }
-              }
-            }
+            tension: 0.4
           };
         }).toArray();
       }
 
-      console.log('datasets COIN', datasets);
-      console.log('dates', dates);
       return {
         labels: dates,
         datasets: datasets
@@ -5238,11 +5228,14 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
       }
     });
     var chartGithubCommitsData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      var _props$chartGithubCom;
+
       if (!props.chartGithubCommits) {
         return;
-      }
+      } // TODO: we use index 0: use only the dates of the first crypto this is ugly fix. We would need to have dates of ALL days, and return days of no commits for each crypto
 
-      var dates = props.chartGithubCommitsDates.map(function (timestamp) {
+
+      var dates = (_props$chartGithubCom = props.chartGithubCommitsDates[0]) === null || _props$chartGithubCom === void 0 ? void 0 : _props$chartGithubCom.map(function (timestamp) {
         return moment__WEBPACK_IMPORTED_MODULE_9___default()(timestamp);
       });
       var datasets = [];
@@ -5260,6 +5253,8 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
         }).toArray();
       }
 
+      console.log('dates', dates);
+      console.log('datasets', datasets);
       return {
         labels: dates,
         datasets: datasets
@@ -5267,17 +5262,9 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
     });
     var chartGithubCommitsOptions = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({
       responsive: true,
-      elements: {
-        point: {
-          radius: 0
-        }
-      },
       scales: {
         x: {
           type: 'time',
-          gridLines: {
-            display: false
-          },
           time: {
             minUnit: 'day',
             stepSize: 1
@@ -9995,15 +9982,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 256
   /* UNKEYED_FRAGMENT */
   ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LineChart, {
-    chartData: _ctx.chartGithubCommitsData,
-    "class": "chart",
-    options: _ctx.chartGithubCommitsOptions
-  }, null, 8
-  /* PROPS */
-  , ["chartData", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LineChart, {
     chartData: _ctx.chartData,
     "class": "chart",
     options: _ctx.chartOptions
+  }, null, 8
+  /* PROPS */
+  , ["chartData", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LineChart, {
+    chartData: _ctx.chartGithubCommitsData,
+    "class": "chart",
+    options: _ctx.chartGithubCommitsOptions
   }, null, 8
   /* PROPS */
   , ["chartData", "options"]), _ctx.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.error), 1
