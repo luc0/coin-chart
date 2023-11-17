@@ -84,7 +84,6 @@
 
             const chartData = computed(() => {
                 const dates = props.chartDates.map((timestamp) => {
-                    console.log('timestamp', timestamp)
                     return moment(timestamp).format("YYYY-MM-DDTHH:mm:ss");
                 })
 
@@ -102,7 +101,6 @@
                             backgroundColor: PALETTE[datasetCount],
                             tension: 0.4,
                         }
-
                     }).toArray()
                 }
 
@@ -155,12 +153,14 @@
 
                 if (props.chartGithubCommits) {
                     datasets = collect(props.chartGithubCommits).map((commitCount, index) => {
+                        datasetCount++
+
                         return {
                             label: index,
                             data: commitCount,
                             borderColor: PALETTE[datasetCount],
                             backgroundColor: PALETTE[datasetCount],
-                            tension: 0.4,
+                            tension: 0.1,
                         }
 
                     }).toArray()

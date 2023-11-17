@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\Cryptos;
+use App\Services\CryptoService;
 use Illuminate\Console\Command;
 
 class syncGithubCommits extends Command
@@ -20,14 +20,14 @@ class syncGithubCommits extends Command
      * @var string
      */
     protected $description = 'Sync all crypto github commits';
-    private Cryptos $cryptoService;
+    private CryptoService $cryptoService;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(Cryptos $cryptoService)
+    public function __construct(CryptoService $cryptoService)
     {
         parent::__construct();
         $this->cryptoService = $cryptoService;
