@@ -5176,7 +5176,6 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
     });
     var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       var dates = props.chartDates.map(function (timestamp) {
-        console.log('timestamp', timestamp);
         return moment__WEBPACK_IMPORTED_MODULE_9___default()(timestamp).format("YYYY-MM-DDTHH:mm:ss");
       });
       var datasets = [];
@@ -5243,12 +5242,13 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
 
       if (props.chartGithubCommits) {
         datasets = collect_js__WEBPACK_IMPORTED_MODULE_11___default()(props.chartGithubCommits).map(function (commitCount, index) {
+          datasetCount++;
           return {
             label: index,
             data: commitCount,
             borderColor: PALETTE[datasetCount],
             backgroundColor: PALETTE[datasetCount],
-            tension: 0.4
+            tension: 0.1
           };
         }).toArray();
       }

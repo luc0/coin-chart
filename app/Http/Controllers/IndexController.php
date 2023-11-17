@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RangeEnum;
-use App\Services\Cryptos;
+use App\Services\CryptoService;
 use App\Support\CoinRankingAPI;
-use App\Support\GithubAPI;
 use Inertia\Inertia;
 
 class IndexController extends Controller
 {
     private const RANGES = ['3h', '24h', '7d', '30d', '3m', '1y', '3y', '5y'];
 
-    public function index(Cryptos $cryptoService)
+    public function index(CryptoService $cryptoService)
     {
         $coinRankingAPI = new CoinRankingAPI();
-        $githubAPI = new GithubAPI();
 
         $range = RangeEnum::from(request()->get('range') ?? '3m');
         $coins = request()->get('coins') ?? [];
@@ -28,7 +26,6 @@ class IndexController extends Controller
         // dd($coinRankingPriceResponse->getPriceChanges($grouped));
 //        dd($coinRanking->listCoins($coins))
         $githubCommitsDates = $cryptoService->getCommitsDates($coins, $range);
-
         $githubCommitsCount = $cryptoService->getCommitsCount($coins, $range);
 
         $data = [

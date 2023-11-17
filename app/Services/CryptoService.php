@@ -9,34 +9,35 @@ use App\Models\GithubProject;
 use App\Support\GithubAPI;
 use Carbon\Carbon;
 
-class Cryptos
+class CryptoService
 {
     private GithubAPI $githubAPI;
-    private RangeService $rangeService;
 
-    function __construct(GithubAPI $githubAPI, RangeService $rangeService)
+    function __construct(GithubAPI $githubAPI)
     {
         $this->githubAPI = $githubAPI;
-        $this->rangeService = $rangeService;
     }
 
     public function syncGithubData(): bool
     {
         /** @var Crypto $crypto */
-        $crypto = Crypto::firstWhere(['name' => 'solana']);
-        /** @var GithubProject $project */
-        $project = $crypto->githubProject;
+        $cryptos = Crypto::all();
 
-        $lastStoredCommit = $project->githubCommits()->orderByDesc('committed_at')->first();
-        $lastCommitAt = $lastStoredCommit?->committed_at;
+        $cryptos->map(function ($crypto) {
+            /** @var GithubProject $project */
+            $project = $crypto->githubProject;
 
-        $commitsDTO = $this->githubAPI->getAllCommitsData($project->owner_name, $project->repository_name, $lastCommitAt);
+            $lastStoredCommit = $project->githubCommits()->orderByDesc('committed_at')->first();
+            $lastCommitAt = $lastStoredCommit?->committed_at;
 
-        collect($commitsDTO->commits)->each(fn (string $commitedAt) => (
-            $project->githubCommits()->create(['committed_at' => Carbon::parse($commitedAt)->toDateTime()])
-        ));
+            $commitsDTO = $this->githubAPI->getAllCommitsData($project->owner_name, $project->repository_name, $lastCommitAt);
 
-        $project->save();
+            collect($commitsDTO->commits)->each(fn (string $commitedAt) => (
+                $project->githubCommits()->create(['committed_at' => Carbon::parse($commitedAt)->toDateTime()])
+            ));
+
+            $project->save();
+        });
 
         return true;
     }
@@ -107,23 +108,25 @@ class Cryptos
     {
         $tokens = $coins ? collect($coins)->pluck('symbol') : [];
 
-        $cryptoWithCommits = Crypto::with(['githubProject.githubCommits' => function($query) use($range) {
+        $cryptosWithCommits = Crypto::with(['githubProject.githubCommits' => function($query) use($range) {
             return $query->filterByRange($range);
         }])->whereIn('token', $tokens)->get();
 
-        $commits = $cryptoWithCommits->mapWithKeys(function($crypto, $key) {
-            $value = $crypto->githubProject->githubCommits->countBy(function (GithubCommit $commit) {
+        $cryptosWithCommits = $cryptosWithCommits->mapWithKeys(function($crypto, $key) {
+            $commitsPerDate = $crypto->githubProject->githubCommits->countBy(function (GithubCommit $commit) {
                 return explode(' ', $commit->committed_at)[0];
             })->toArray();
-            return [$crypto->token => $value];
+            return [$crypto->token => $commitsPerDate];
         })->unique()->toArray();
 
-        if (!$commits) {
+        if (!$cryptosWithCommits) {
             return [];
         }
 
-        $commits = $this->addMissingDates($commits['sol'], false);
+        $cryptosWithCommits = collect($cryptosWithCommits)->map(function (array $crypto) {
+            return $this->addMissingDates($crypto, false);
+        })->toArray();
 
-        return ['sol' => $commits];
+        return $cryptosWithCommits;
     }
 }
