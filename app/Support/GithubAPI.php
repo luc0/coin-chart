@@ -51,8 +51,7 @@ class GithubAPI
             } else {
                 $hasMorePages = false;
             }
-
-        } while ($hasMorePages && $currentPage <= 3);
+        } while ($hasMorePages && $currentPage < 2);
 
         return $commitsDTO;
     }

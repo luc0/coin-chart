@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Enums\RangeEnum;
 use App\Response\CoinGroupResponse;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -23,7 +24,7 @@ class CoinRankingAPI
         ]);
     }
 
-    public function getCoinsPriceHistory(?string $period = '3m', array $coins): CoinGroupResponse
+    public function getCoinsPriceHistory(RangeEnum $period, array $coins): CoinGroupResponse
     {
         $history = [];
 
@@ -31,7 +32,7 @@ class CoinRankingAPI
             $response =  Http::get(
                 $this->getCoinHistoryEndpoint($coin['uuid']),
                 [
-                    'timePeriod' => $period,
+                    'timePeriod' => $period->value,
                     'x-access-token' => 'coinranking5e43443bd45a48ac38744d5d22a78867b3f2d8fffc73660f'
                 ]
             );

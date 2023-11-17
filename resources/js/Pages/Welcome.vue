@@ -28,8 +28,8 @@
             </div>
         </div>
 
-        <LineChart :chartData="chartGithubCommitsData" class="chart" :options="chartGithubCommitsOptions" />
         <LineChart :chartData="chartData" class="chart" :options="chartOptions" />
+        <LineChart :chartData="chartGithubCommitsData" class="chart" :options="chartGithubCommitsOptions" />
 
         <p v-if="error" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
             {{ error }}
@@ -84,13 +84,13 @@
 
             const chartData = computed(() => {
                 const dates = props.chartDates.map((timestamp) => {
-                    console.log('date coin', timestamp)
-                    return moment.from(timestamp)
+                    console.log('timestamp', timestamp)
+                    return moment(timestamp).format("YYYY-MM-DDTHH:mm:ss");
                 })
 
                 let datasets = [];
                 let datasetCount = -1
-                // console.log('props.chartPrices', props.chartPrices.average)
+
                 if (props.chartPrices) {
                     datasets = collect(props.chartPrices).map((prices, index) => {
                         datasetCount++
@@ -101,20 +101,11 @@
                             borderColor: PALETTE[datasetCount],
                             backgroundColor: PALETTE[datasetCount],
                             tension: 0.4,
-                            options: {
-                                scales: {
-                                    y: {
-                                        display: true,
-                                        type: 'logarithmic'
-                                    }
-                                }
-                            }
                         }
 
                     }).toArray()
                 }
-                console.log('datasets COIN', datasets)
-                console.log('dates', dates)
+
                 return {
                     labels: dates,
                     datasets: datasets,
@@ -154,7 +145,8 @@
                     return
                 }
 
-                const dates = props.chartGithubCommitsDates.map((timestamp) => {
+                // TODO: we use index 0: use only the dates of the first crypto this is ugly fix. We would need to have dates of ALL days, and return days of no commits for each crypto
+                const dates = props.chartGithubCommitsDates[0]?.map((timestamp) => {
                     return moment(timestamp)
                 })
 
@@ -174,6 +166,8 @@
                     }).toArray()
                 }
 
+                console.log('dates', dates)
+                console.log('datasets', datasets)
                 return {
                     labels: dates,
                     datasets: datasets,
@@ -182,17 +176,9 @@
 
             const chartGithubCommitsOptions = ref({
                 responsive: true,
-                elements: {
-                    point:{
-                        radius: 0
-                    }
-                },
                 scales: {
                     x: {
                         type: 'time',
-                        gridLines: {
-                            display: false
-                        },
                         time: {
                             minUnit: 'day',
                             stepSize: 1,
