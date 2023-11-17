@@ -6,6 +6,9 @@ use App\Enums\RangeEnum;
 use App\Models\Crypto;
 use App\Models\GithubCommit;
 use App\Models\GithubProject;
+use App\Strategies\AddCommitsMissingData\AddMissingDataStrategy;
+use App\Strategies\AddCommitsMissingData\AddMissingDataUsingIndexStrategy;
+use App\Strategies\AddCommitsMissingData\AddMissingDataUsingValueStrategy;
 use App\Support\GithubAPI;
 use Carbon\Carbon;
 
@@ -62,46 +65,9 @@ class CryptoService
             return [];
         }
 
-        $dates = $this->addMissingDates($dates[0], true);
+        $dates = $this->addMissingDates($dates[0], new AddMissingDataUsingValueStrategy());
 
         return [$dates];
-    }
-
-    public function addMissingDates(array $fromDates, bool $searchInValue): array
-    {
-        $dates = collect($fromDates);
-        if ($searchInValue === true) {
-            $recentDate = Carbon::parse($dates->first());
-            $oldestDate = Carbon::parse($dates->last());
-        } else {
-            $recentDate = Carbon::parse($dates->keys()->sortDesc()->first());
-            $oldestDate = Carbon::parse($dates->keys()->sortDesc()->last());
-        }
-        $searchDate = $recentDate;
-        $currentDaysCount = $recentDate->diffInDays($oldestDate);
-        for ($i = 0; $i < $currentDaysCount; $i++) {
-            $searchDate = $searchDate->subDay();
-
-            if ($searchInValue === true) {
-                $noDataDate = $dates->search($searchDate->toDateString()) == false;
-            } else {
-                $noDataDate = $dates->has($searchDate->toDateString()) == false;
-            }
-
-            if ($noDataDate) {
-                if ($searchInValue) {
-                    $dates->add($searchDate->toDateString());
-                } else {
-                    $dates->put($searchDate->toDateString(), 0);
-                }
-            }
-        }
-
-        if ($searchInValue) {
-            return $dates->sortDesc()->values()->toArray();
-        } else {
-            return $dates->sortKeysDesc()->values()->toArray();
-        }
     }
 
     public function getCommitsCount(?array $coins = [], RangeEnum $range): array
@@ -123,10 +89,31 @@ class CryptoService
             return [];
         }
 
-        $cryptosWithCommits = collect($cryptosWithCommits)->map(function (array $crypto) {
-            return $this->addMissingDates($crypto, false);
+        return collect($cryptosWithCommits)->map(function (array $crypto) {
+            return $this->addMissingDates($crypto, new AddMissingDataUsingIndexStrategy());
         })->toArray();
+    }
 
-        return $cryptosWithCommits;
+    // TODO: naming of interfaces, and strategy.
+    private function addMissingDates(array $fromDates, AddMissingDataStrategy $addMissingData): array
+    {
+        $dates = collect($fromDates);
+
+        $recentDate = Carbon::parse($addMissingData->getFirstDateFrom($dates));
+        $oldestDate = Carbon::parse($addMissingData->getLastDateFrom($dates));
+
+        $searchDate = $recentDate;
+        $currentDaysCount = $recentDate->diffInDays($oldestDate);
+        for ($i = 0; $i < $currentDaysCount; $i++) {
+            $searchDate = $searchDate->subDay();
+
+            $noDataDate = $addMissingData->hasNoDataInDate($dates, $searchDate);
+
+            if ($noDataDate) {
+                $dates = $addMissingData->addDate($dates, $searchDate);
+            }
+        }
+
+        return $addMissingData->getArraySortedDesc($dates);
     }
 }

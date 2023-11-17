@@ -15,6 +15,7 @@ class IndexController extends Controller
     {
         $coinRankingAPI = new CoinRankingAPI();
 
+        // TODO: create Request
         $range = RangeEnum::from(request()->get('range') ?? '3m');
         $coins = request()->get('coins') ?? [];
         $grouped = request()->get('grouped') ?? true;
@@ -25,6 +26,7 @@ class IndexController extends Controller
         // $chartValues = $grouped ? $coinRankingPriceResponse->getPriceChanges($grouped) : null;
         // dd($coinRankingPriceResponse->getPriceChanges($grouped));
 //        dd($coinRanking->listCoins($coins))
+
         $githubCommitsDates = $cryptoService->getCommitsDates($coins, $range);
         $githubCommitsCount = $cryptoService->getCommitsCount($coins, $range);
 
@@ -43,10 +45,6 @@ class IndexController extends Controller
             'chartGithubCommits' => $githubCommitsCount,
             'chartGithubCommitsDates' => $githubCommitsDates,
         ];
-
-        /*
-         * - TODO: usar chartCommits en un chart.
-         * */
 
         return Inertia::render('Welcome', $data);
     }
