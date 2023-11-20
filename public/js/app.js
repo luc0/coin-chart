@@ -3000,6 +3000,97 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_charts_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../css/charts.scss */ "./resources/css/charts.scss");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-browser.prod.js");
+/* harmony import */ var vue_chart_3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-chart-3 */ "./node_modules/vue-chart-3/dist/index.js");
+/* harmony import */ var vue_chart_3__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_chart_3__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var chartjs_adapter_moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! chartjs-adapter-moment */ "./node_modules/chartjs-adapter-moment/dist/chartjs-adapter-moment.esm.js");
+/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! collect.js */ "./node_modules/collect.js/dist/index.js");
+/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(collect_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _Utils_Charts_CommitsChartOptions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Utils/Charts/CommitsChartOptions */ "./resources/js/Utils/Charts/CommitsChartOptions.js");
+
+
+
+
+
+
+
+var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6', '#f8a5c2', '#63cdda', '#ea8685'];
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_1__.defineComponent)({
+  components: {
+    LineChart: vue_chart_3__WEBPACK_IMPORTED_MODULE_2__.LineChart
+  },
+  props: {
+    chartGithubCommits: Array,
+    chartGithubCommitsDates: Array,
+    error: String
+  },
+  setup: function setup(props) {
+    var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      var _props$chartGithubCom;
+
+      if (!props.chartGithubCommits) {
+        return;
+      } // TODO: we use index 0: use only the dates of the first crypto this is ugly fix. We would need to have dates of ALL days, and return days of no commits for each crypto
+
+
+      var dates = (_props$chartGithubCom = props.chartGithubCommitsDates[0]) === null || _props$chartGithubCom === void 0 ? void 0 : _props$chartGithubCom.map(function (timestamp) {
+        return moment__WEBPACK_IMPORTED_MODULE_3___default()(timestamp);
+      });
+      console.log('props.chartGithubCommitsDates[0]', props.chartGithubCommitsDates[0]);
+      var datasets = [];
+      var datasetCount = -1;
+
+      if (props.chartGithubCommits) {
+        datasets = collect_js__WEBPACK_IMPORTED_MODULE_5___default()(props.chartGithubCommits).map(function (commitCount, index) {
+          datasetCount++;
+          return {
+            label: index,
+            data: commitCount,
+            borderColor: PALETTE[datasetCount],
+            backgroundColor: PALETTE[datasetCount],
+            tension: 0.1
+          };
+        }).toArray();
+      }
+
+      console.log('dates', dates, datasets);
+      return {
+        labels: dates,
+        datasets: datasets
+      };
+    });
+    var chartOptions = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(_Utils_Charts_CommitsChartOptions__WEBPACK_IMPORTED_MODULE_6__["default"]);
+
+    Object.map = function (obj, fn, ctx) {
+      return Object.keys(obj).reduce(function (a, b) {
+        a[b] = fn.call(ctx || null, b, obj[b]);
+        return a;
+      }, {});
+    };
+
+    return {
+      chartOptions: chartOptions,
+      chartData: chartData
+    };
+  }
+}));
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/FilterCoin/FilterCoin.vue?vue&type=script&lang=js":
 /*!***************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/FilterCoin/FilterCoin.vue?vue&type=script&lang=js ***!
@@ -3048,6 +3139,80 @@ __webpack_require__.r(__webpack_exports__);
   },
   setup: function setup() {
     return {};
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/PriceChart/PriceChart.vue?vue&type=script&lang=js":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/PriceChart/PriceChart.vue?vue&type=script&lang=js ***!
+  \***************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_charts_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../css/charts.scss */ "./resources/css/charts.scss");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-browser.prod.js");
+/* harmony import */ var vue_chart_3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-chart-3 */ "./node_modules/vue-chart-3/dist/index.js");
+/* harmony import */ var vue_chart_3__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_chart_3__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var chartjs_adapter_moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! chartjs-adapter-moment */ "./node_modules/chartjs-adapter-moment/dist/chartjs-adapter-moment.esm.js");
+/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! collect.js */ "./node_modules/collect.js/dist/index.js");
+/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(collect_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _Utils_Charts_PriceChartOptions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Utils/Charts/PriceChartOptions */ "./resources/js/Utils/Charts/PriceChartOptions.js");
+
+
+
+
+
+
+
+var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6', '#f8a5c2', '#63cdda', '#ea8685'];
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_1__.defineComponent)({
+  components: {
+    LineChart: vue_chart_3__WEBPACK_IMPORTED_MODULE_2__.LineChart
+  },
+  props: {
+    chartPrices: Array,
+    chartDates: Array,
+    error: String
+  },
+  setup: function setup(props) {
+    var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      var dates = props.chartDates.map(function (timestamp) {
+        return moment__WEBPACK_IMPORTED_MODULE_3___default()(timestamp).format("YYYY-MM-DDTHH:mm:ss");
+      });
+      var datasets = [];
+      var datasetCount = -1;
+
+      if (props.chartPrices) {
+        datasets = collect_js__WEBPACK_IMPORTED_MODULE_5___default()(props.chartPrices).map(function (prices, index) {
+          datasetCount++;
+          return {
+            label: index,
+            data: prices,
+            borderColor: PALETTE[datasetCount],
+            backgroundColor: PALETTE[datasetCount],
+            tension: 0.4
+          };
+        }).toArray();
+      }
+
+      return {
+        labels: dates,
+        datasets: datasets
+      };
+    });
+    var chartOptions = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(_Utils_Charts_PriceChartOptions__WEBPACK_IMPORTED_MODULE_6__["default"]);
+    return {
+      chartOptions: chartOptions,
+      chartData: chartData
+    };
   }
 }));
 
@@ -4595,21 +4760,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_chart_3__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_chart_3__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _Components_FilterRange_FilterRange_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Components/FilterRange/FilterRange.vue */ "./resources/js/Components/FilterRange/FilterRange.vue");
 /* harmony import */ var _Components_FilterCoin_FilterCoin_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Components/FilterCoin/FilterCoin.vue */ "./resources/js/Components/FilterCoin/FilterCoin.vue");
-/* harmony import */ var _Components_SearchCoin_SearchCoin_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Components/SearchCoin/SearchCoin.vue */ "./resources/js/Components/SearchCoin/SearchCoin.vue");
-/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _Components_PriceChart_PriceChart_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Components/PriceChart/PriceChart.vue */ "./resources/js/Components/PriceChart/PriceChart.vue");
+/* harmony import */ var _Components_CommitsChart_CommitsChart_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Components/CommitsChart/CommitsChart.vue */ "./resources/js/Components/CommitsChart/CommitsChart.vue");
+/* harmony import */ var _Components_SearchCoin_SearchCoin_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Components/SearchCoin/SearchCoin.vue */ "./resources/js/Components/SearchCoin/SearchCoin.vue");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var chartjs_adapter_moment__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! chartjs-adapter-moment */ "./node_modules/chartjs-adapter-moment/dist/chartjs-adapter-moment.esm.js");
-/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! collect.js */ "./node_modules/collect.js/dist/index.js");
-/* harmony import */ var collect_js__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(collect_js__WEBPACK_IMPORTED_MODULE_11__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -4628,7 +4789,9 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
     LineChart: vue_chart_3__WEBPACK_IMPORTED_MODULE_2__.LineChart,
     FilterRange: _Components_FilterRange_FilterRange_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     FilterCoin: _Components_FilterCoin_FilterCoin_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    Search: _Components_SearchCoin_SearchCoin_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    PriceChart: _Components_PriceChart_PriceChart_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    CommitsChart: _Components_CommitsChart_CommitsChart_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    Search: _Components_SearchCoin_SearchCoin_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
   props: {
     chartPrices: Array,
@@ -4643,7 +4806,7 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
   setup: function setup(props) {
     var state = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       filterRange: '3m',
-      selectedCoins: (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_7__.usePage)().props.value.coinsSelected,
+      selectedCoins: (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_9__.usePage)().props.value.coinsSelected,
       grouped: props.grouped
     });
     var filterableCoinsList = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
@@ -4654,104 +4817,6 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
         });
         return !isPresent;
       });
-    });
-    var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
-      var dates = props.chartDates.map(function (timestamp) {
-        return moment__WEBPACK_IMPORTED_MODULE_9___default()(timestamp).format("YYYY-MM-DDTHH:mm:ss");
-      });
-      var datasets = [];
-      var datasetCount = -1;
-
-      if (props.chartPrices) {
-        datasets = collect_js__WEBPACK_IMPORTED_MODULE_11___default()(props.chartPrices).map(function (prices, index) {
-          datasetCount++;
-          return {
-            label: index,
-            data: prices,
-            borderColor: PALETTE[datasetCount],
-            backgroundColor: PALETTE[datasetCount],
-            tension: 0.4
-          };
-        }).toArray();
-      }
-
-      return {
-        labels: dates,
-        datasets: datasets
-      };
-    });
-    var chartOptions = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({
-      responsive: true,
-      elements: {
-        point: {
-          radius: 0
-        }
-      },
-      scales: {
-        x: {
-          type: 'time',
-          gridLines: {
-            display: false
-          },
-          time: {
-            minUnit: 'minute',
-            stepSize: 10
-          }
-        },
-        y: {
-          ticks: {
-            callback: function callback(value, index, values) {
-              return value + '%';
-            }
-          }
-        }
-      }
-    });
-    var chartGithubCommitsData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
-      var _props$chartGithubCom;
-
-      if (!props.chartGithubCommits) {
-        return;
-      } // TODO: we use index 0: use only the dates of the first crypto this is ugly fix. We would need to have dates of ALL days, and return days of no commits for each crypto
-
-
-      var dates = (_props$chartGithubCom = props.chartGithubCommitsDates[0]) === null || _props$chartGithubCom === void 0 ? void 0 : _props$chartGithubCom.map(function (timestamp) {
-        return moment__WEBPACK_IMPORTED_MODULE_9___default()(timestamp);
-      });
-      var datasets = [];
-      var datasetCount = -1;
-
-      if (props.chartGithubCommits) {
-        datasets = collect_js__WEBPACK_IMPORTED_MODULE_11___default()(props.chartGithubCommits).map(function (commitCount, index) {
-          datasetCount++;
-          return {
-            label: index,
-            data: commitCount,
-            borderColor: PALETTE[datasetCount],
-            backgroundColor: PALETTE[datasetCount],
-            tension: 0.1
-          };
-        }).toArray();
-      }
-
-      console.log('dates', dates);
-      console.log('datasets', datasets);
-      return {
-        labels: dates,
-        datasets: datasets
-      };
-    });
-    var chartGithubCommitsOptions = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({
-      responsive: true,
-      scales: {
-        x: {
-          type: 'time',
-          time: {
-            minUnit: 'day',
-            stepSize: 1
-          }
-        }
-      }
     });
 
     function changeRange(range) {
@@ -4777,7 +4842,7 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
     }
 
     function updateChart() {
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_6__.Inertia.post('/', {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_8__.Inertia.post('/', {
         'coins': state.selectedCoins,
         'range': state.filterRange,
         'grouped': state.grouped
@@ -4792,17 +4857,13 @@ var PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6',
     };
 
     return _objectSpread(_objectSpread({
-      chartOptions: chartOptions,
-      chartData: chartData,
       changeRange: changeRange,
       changeGrouped: changeGrouped,
       updateChart: updateChart
     }, (0,vue__WEBPACK_IMPORTED_MODULE_1__.toRefs)(state)), {}, {
       addCoin: addCoin,
       removeCoin: removeCoin,
-      filterableCoinsList: filterableCoinsList,
-      chartGithubCommitsData: chartGithubCommitsData,
-      chartGithubCommitsOptions: chartGithubCommitsOptions
+      filterableCoinsList: filterableCoinsList
     });
   }
 }));
@@ -5328,6 +5389,33 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=template&id=7274e1d4":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=template&id=7274e1d4 ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-browser.prod.js");
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_LineChart = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("LineChart");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_LineChart, {
+    chartData: _ctx.chartData,
+    "class": "chart",
+    options: _ctx.chartOptions
+  }, null, 8
+  /* PROPS */
+  , ["chartData", "options"]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/FilterCoin/FilterCoin.vue?vue&type=template&id=c6c3e598":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/FilterCoin/FilterCoin.vue?vue&type=template&id=c6c3e598 ***!
@@ -5387,6 +5475,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.value), 3
   /* TEXT, CLASS */
   );
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/PriceChart/PriceChart.vue?vue&type=template&id=cefebc98":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/PriceChart/PriceChart.vue?vue&type=template&id=cefebc98 ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-browser.prod.js");
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_LineChart = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("LineChart");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_LineChart, {
+    chartData: _ctx.chartData,
+    "class": "chart",
+    options: _ctx.chartOptions
+  }, null, 8
+  /* PROPS */
+  , ["chartData", "options"]);
 }
 
 /***/ }),
@@ -8714,7 +8829,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_FilterRange = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("FilterRange");
 
-  var _component_LineChart = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("LineChart");
+  var _component_PriceChart = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PriceChart");
+
+  var _component_CommitsChart = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("CommitsChart");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <a href=\"/coin\" class=\"nav-button w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm\">\n                Coin List\n            </a> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.selectedCoins, function (coinItem, key) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -8757,19 +8874,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["value", "currentValue"]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LineChart, {
-    chartData: _ctx.chartData,
-    "class": "chart",
-    options: _ctx.chartOptions
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PriceChart, {
+    chartDates: _ctx.chartDates,
+    chartPrices: _ctx.chartPrices
   }, null, 8
   /* PROPS */
-  , ["chartData", "options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LineChart, {
-    chartData: _ctx.chartGithubCommitsData,
-    "class": "chart",
-    options: _ctx.chartGithubCommitsOptions
+  , ["chartDates", "chartPrices"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CommitsChart, {
+    chartGithubCommits: _ctx.chartGithubCommits,
+    chartGithubCommitsDates: _ctx.chartGithubCommitsDates
   }, null, 8
   /* PROPS */
-  , ["chartData", "options"]), _ctx.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.error), 1
+  , ["chartGithubCommits", "chartGithubCommitsDates"]), _ctx.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.error), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
@@ -10030,6 +10145,73 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Utils/Charts/CommitsChartOptions.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/Utils/Charts/CommitsChartOptions.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  responsive: true,
+  scales: {
+    x: {
+      type: 'time',
+      time: {
+        minUnit: 'day',
+        stepSize: 1
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/Utils/Charts/PriceChartOptions.js":
+/*!********************************************************!*\
+  !*** ./resources/js/Utils/Charts/PriceChartOptions.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  responsive: true,
+  elements: {
+    point: {
+      radius: 0
+    }
+  },
+  scales: {
+    x: {
+      type: 'time',
+      gridLines: {
+        display: false
+      },
+      time: {
+        minUnit: 'minute',
+        stepSize: 10
+      }
+    },
+    y: {
+      ticks: {
+        callback: function callback(value, index, values) {
+          return value + '%';
+        }
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -10123,35 +10305,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
-
-/***/ }),
-
-/***/ "./resources/js/utils.js":
-/*!*******************************!*\
-  !*** ./resources/js/utils.js ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   months: () => (/* binding */ months)
-/* harmony export */ });
-var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-function months(config) {
-  var cfg = config || {};
-  var count = cfg.count || 12;
-  var section = cfg.section;
-  var values = [];
-  var i, value;
-
-  for (i = 0; i < count; ++i) {
-    value = MONTHS[Math.ceil(i) % 12];
-    values.push(value.substring(0, section));
-  }
-
-  return values;
-}
 
 /***/ }),
 
@@ -78371,6 +78524,32 @@ exports.install = function(){}
 
 /***/ }),
 
+/***/ "./resources/js/Components/CommitsChart/CommitsChart.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/Components/CommitsChart/CommitsChart.vue ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CommitsChart_vue_vue_type_template_id_7274e1d4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CommitsChart.vue?vue&type=template&id=7274e1d4 */ "./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=template&id=7274e1d4");
+/* harmony import */ var _CommitsChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CommitsChart.vue?vue&type=script&lang=js */ "./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=script&lang=js");
+
+
+
+_CommitsChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _CommitsChart_vue_vue_type_template_id_7274e1d4__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_CommitsChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__file = "resources/js/Components/CommitsChart/CommitsChart.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_CommitsChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+/***/ }),
+
 /***/ "./resources/js/Components/FilterCoin/FilterCoin.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/Components/FilterCoin/FilterCoin.vue ***!
@@ -78424,6 +78603,32 @@ if (false) {}
 _FilterRange_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__file = "resources/js/Components/FilterRange/FilterRange.vue"
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_FilterRange_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+/***/ }),
+
+/***/ "./resources/js/Components/PriceChart/PriceChart.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/Components/PriceChart/PriceChart.vue ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PriceChart_vue_vue_type_template_id_cefebc98__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PriceChart.vue?vue&type=template&id=cefebc98 */ "./resources/js/Components/PriceChart/PriceChart.vue?vue&type=template&id=cefebc98");
+/* harmony import */ var _PriceChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PriceChart.vue?vue&type=script&lang=js */ "./resources/js/Components/PriceChart/PriceChart.vue?vue&type=script&lang=js");
+
+
+
+_PriceChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _PriceChart_vue_vue_type_template_id_cefebc98__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_PriceChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__file = "resources/js/Components/PriceChart/PriceChart.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_PriceChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 /***/ }),
 
@@ -79646,6 +79851,22 @@ _Show_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__file
 
 /***/ }),
 
+/***/ "./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=script&lang=js":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=script&lang=js ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CommitsChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CommitsChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CommitsChart.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/Components/FilterCoin/FilterCoin.vue?vue&type=script&lang=js":
 /*!***********************************************************************************!*\
   !*** ./resources/js/Components/FilterCoin/FilterCoin.vue?vue&type=script&lang=js ***!
@@ -79674,6 +79895,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FilterRange.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/FilterRange/FilterRange.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/Components/PriceChart/PriceChart.vue?vue&type=script&lang=js":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/Components/PriceChart/PriceChart.vue?vue&type=script&lang=js ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PriceChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PriceChart_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PriceChart.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/PriceChart/PriceChart.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -80350,6 +80587,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=template&id=7274e1d4":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=template&id=7274e1d4 ***!
+  \*********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CommitsChart_vue_vue_type_template_id_7274e1d4__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CommitsChart_vue_vue_type_template_id_7274e1d4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CommitsChart.vue?vue&type=template&id=7274e1d4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/CommitsChart/CommitsChart.vue?vue&type=template&id=7274e1d4");
+
+
+/***/ }),
+
 /***/ "./resources/js/Components/FilterCoin/FilterCoin.vue?vue&type=template&id=c6c3e598":
 /*!*****************************************************************************************!*\
   !*** ./resources/js/Components/FilterCoin/FilterCoin.vue?vue&type=template&id=c6c3e598 ***!
@@ -80378,6 +80631,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_template_id_137ddc20_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FilterRange_vue_vue_type_template_id_137ddc20_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FilterRange.vue?vue&type=template&id=137ddc20&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/FilterRange/FilterRange.vue?vue&type=template&id=137ddc20&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/PriceChart/PriceChart.vue?vue&type=template&id=cefebc98":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/Components/PriceChart/PriceChart.vue?vue&type=template&id=cefebc98 ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PriceChart_vue_vue_type_template_id_cefebc98__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PriceChart_vue_vue_type_template_id_cefebc98__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PriceChart.vue?vue&type=template&id=cefebc98 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/PriceChart/PriceChart.vue?vue&type=template&id=cefebc98");
 
 
 /***/ }),
