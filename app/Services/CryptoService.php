@@ -21,6 +21,7 @@ class CryptoService
         $this->githubAPI = $githubAPI;
     }
 
+    // TODO: Plantear poner CryptoService en carpeta y separar por funcionalidad. (para hacer single responsability mas facil)
     public function syncGithubData(): bool
     {
         /** @var Crypto $crypto */
@@ -30,11 +31,14 @@ class CryptoService
             /** @var GithubProject $project */
             $project = $crypto->githubProject;
 
+            // getLastCommitAt($project)
             $lastStoredCommit = $project->githubCommits()->orderByDesc('committed_at')->first();
             $lastCommitAt = $lastStoredCommit?->committed_at;
 
+            // getAllCommitsData($project)
             $commitsDTO = $this->githubAPI->getAllCommitsData($project->owner_name, $project->repository_name, $lastCommitAt);
 
+            // saveAllCommitsData($commitsDTO)
             collect($commitsDTO->commits)->each(fn (string $commitedAt) => (
                 $project->githubCommits()->create(['committed_at' => Carbon::parse($commitedAt)->toDateTime()])
             ));
@@ -45,6 +49,7 @@ class CryptoService
         return true;
     }
 
+    // TODO: Aplicar single responsability
     public function getCommitsDates(?array $coins = [], RangeEnum $range): array
     {
         $tokens = $coins ? collect($coins)->pluck('symbol') : [];
@@ -70,6 +75,7 @@ class CryptoService
         return [$dates];
     }
 
+    // TODO: Aplicar single responsability
     public function getCommitsCount(?array $coins = [], RangeEnum $range): array
     {
         $tokens = $coins ? collect($coins)->pluck('symbol') : [];

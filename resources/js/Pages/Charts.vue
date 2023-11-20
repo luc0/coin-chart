@@ -38,7 +38,7 @@
 </template>
 
 <script>
-    import "../../css/welcome.scss";
+    import "../../css/charts.scss";
     import { defineComponent, ref, computed, reactive, toRefs } from 'vue';
     import { LineChart } from 'vue-chart-3';
     import FilterRange from '../Components/FilterRange/FilterRange.vue';
