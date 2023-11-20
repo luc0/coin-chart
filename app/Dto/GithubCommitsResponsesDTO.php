@@ -4,7 +4,7 @@ namespace App\Dto;
 
 use App\Support\GithubCommitsResponse;
 
-class GithubCommitsDTO
+class GithubCommitsResponsesDTO
 {
     public function __construct(
         public array $commits = []

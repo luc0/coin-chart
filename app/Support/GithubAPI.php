@@ -2,8 +2,10 @@
 
 namespace App\Support;
 
-use App\Dto\GithubCommitsDTO;
+use App\Dto\GithubCommitsResponsesDTO;
+use App\Models\GithubProject;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 // DOCS: https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#get-a-commit
@@ -35,11 +37,20 @@ class GithubAPI
         return new GithubCommitsResponse($response);
     }
 
-    public function getAllCommitsData(string $owner, string $repository, ?string $since = null, ?int $currentPage = 1): GithubCommitsDTO
+    public function getAPICommits(GithubProject $project): Collection
+    {
+        return collect($this->getAllCommitsData(
+            $project->owner_name,
+            $project->repository_name,
+            $project->getLatsCommitAt()
+        )->commits);
+    }
+
+    private function getAllCommitsData(string $owner, string $repository, ?string $since = null, ?int $currentPage = 1): GithubCommitsResponsesDTO
     {
         $hasMorePages = true;
 
-        $commitsDTO = new GithubCommitsDTO();
+        $commitsDTO = new GithubCommitsResponsesDTO();
 
         $githubCommitsResponse = $this->getCommitsResponse($owner, $repository, $since, $currentPage);
         $commitsDTO->addResponse($githubCommitsResponse);
