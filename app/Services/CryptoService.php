@@ -15,35 +15,22 @@ use Carbon\Carbon;
 class CryptoService
 {
     private GithubAPI $githubAPI;
+    private ProjectService $projectService;
 
-    function __construct(GithubAPI $githubAPI)
+    function __construct(GithubAPI $githubAPI, ProjectService $projectService)
     {
         $this->githubAPI = $githubAPI;
+        $this->projectService = $projectService;
     }
 
-    // TODO: Plantear poner CryptoService en carpeta y separar por funcionalidad. (para hacer single responsability mas facil)
     public function syncGithubData(): bool
     {
-        /** @var Crypto $crypto */
-        $cryptos = Crypto::all();
-
-        $cryptos->map(function ($crypto) {
-            /** @var GithubProject $project */
+        Crypto::all()->each(function ($crypto) {
             $project = $crypto->githubProject;
 
-            // getLastCommitAt($project)
-            $lastStoredCommit = $project->githubCommits()->orderByDesc('committed_at')->first();
-            $lastCommitAt = $lastStoredCommit?->committed_at;
+            $commits = $this->githubAPI->getAPICommits($project);
 
-            // getAllCommitsData($project)
-            $commitsDTO = $this->githubAPI->getAllCommitsData($project->owner_name, $project->repository_name, $lastCommitAt);
-
-            // saveAllCommitsData($commitsDTO)
-            collect($commitsDTO->commits)->each(fn (string $commitedAt) => (
-                $project->githubCommits()->create(['committed_at' => Carbon::parse($commitedAt)->toDateTime()])
-            ));
-
-            $project->save();
+            $this->projectService->storeCommits($project, $commits);
         });
 
         return true;

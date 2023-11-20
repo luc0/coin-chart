@@ -14,4 +14,9 @@ class GithubProject extends Model
     {
         return $this->hasMany(GithubCommit::class);
     }
+
+    public function getLatsCommitAt(): ?string
+    {
+        return $this->githubCommits()->orderByDesc('committed_at')->first()?->committed_at;
+    }
 }
