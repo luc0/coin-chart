@@ -28,8 +28,8 @@
             </div>
         </div>
 
-        <LineChart :chartData="chartData" class="chart" :options="chartOptions" />
-        <LineChart :chartData="chartGithubCommitsData" class="chart" :options="chartGithubCommitsOptions" />
+        <PriceChart :chartDates="chartDates" :chartPrices="chartPrices"/>
+        <CommitsChart :chartGithubCommits="chartGithubCommits" :chartGithubCommitsDates="chartGithubCommitsDates"/>
 
         <p v-if="error" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
             {{ error }}
@@ -43,18 +43,18 @@
     import { LineChart } from 'vue-chart-3';
     import FilterRange from '../Components/FilterRange/FilterRange.vue';
     import FilterCoin from '../Components/FilterCoin/FilterCoin.vue';
+    import PriceChart from '../Components/PriceChart/PriceChart.vue';
+    import CommitsChart from '../Components/CommitsChart/CommitsChart.vue';
     import Search from '../Components/SearchCoin/SearchCoin.vue';
     import { Inertia } from '@inertiajs/inertia';
     import { usePage } from '@inertiajs/inertia-vue3'
-    import { months } from '../utils'
-    import moment from 'moment';
     import 'chartjs-adapter-moment';
-    import collect from 'collect.js';
 
     let PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6', '#f8a5c2', '#63cdda', '#ea8685']
 
     export default defineComponent({
-        components: { LineChart, FilterRange, FilterCoin, Search },
+        components: { LineChart, FilterRange, FilterCoin, PriceChart, CommitsChart, Search },
+
         props: {
             chartPrices: Array,
             chartDates: Array,
@@ -65,6 +65,7 @@
             chartGithubCommits: Array,
             chartGithubCommitsDates: Array
         },
+
         setup(props) {
             const state = reactive({
                 filterRange: '3m',
@@ -80,111 +81,6 @@
                     });
                     return !isPresent
                 })
-            })
-
-            const chartData = computed(() => {
-                const dates = props.chartDates.map((timestamp) => {
-                    return moment(timestamp).format("YYYY-MM-DDTHH:mm:ss");
-                })
-
-                let datasets = [];
-                let datasetCount = -1
-
-                if (props.chartPrices) {
-                    datasets = collect(props.chartPrices).map((prices, index) => {
-                        datasetCount++
-
-                        return {
-                            label: index,
-                            data: prices,
-                            borderColor: PALETTE[datasetCount],
-                            backgroundColor: PALETTE[datasetCount],
-                            tension: 0.4,
-                        }
-                    }).toArray()
-                }
-
-                return {
-                    labels: dates,
-                    datasets: datasets,
-                }
-            });
-
-            const chartOptions = ref({
-                responsive: true,
-                elements: {
-                    point:{
-                        radius: 0
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'time',
-                        gridLines: {
-                            display:false
-                        },
-                        time: {
-                            minUnit: 'minute',
-                            stepSize: 10,
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            callback: function(value, index, values) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            })
-
-            const chartGithubCommitsData = computed(() => {
-                if (!props.chartGithubCommits) {
-                    return
-                }
-
-                // TODO: we use index 0: use only the dates of the first crypto this is ugly fix. We would need to have dates of ALL days, and return days of no commits for each crypto
-                const dates = props.chartGithubCommitsDates[0]?.map((timestamp) => {
-                    return moment(timestamp)
-                })
-
-                let datasets = [];
-                let datasetCount = -1
-
-                if (props.chartGithubCommits) {
-                    datasets = collect(props.chartGithubCommits).map((commitCount, index) => {
-                        datasetCount++
-
-                        return {
-                            label: index,
-                            data: commitCount,
-                            borderColor: PALETTE[datasetCount],
-                            backgroundColor: PALETTE[datasetCount],
-                            tension: 0.1,
-                        }
-
-                    }).toArray()
-                }
-
-                console.log('dates', dates)
-                console.log('datasets', datasets)
-                return {
-                    labels: dates,
-                    datasets: datasets,
-                }
-            });
-
-            const chartGithubCommitsOptions = ref({
-                responsive: true,
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            minUnit: 'day',
-                            stepSize: 1,
-                        }
-                    },
-                }
             })
 
             function changeRange(range) {
@@ -228,8 +124,6 @@
             };
 
             return {
-                chartOptions,
-                chartData,
                 changeRange,
                 changeGrouped,
                 updateChart,
@@ -237,14 +131,7 @@
                 addCoin,
                 removeCoin,
                 filterableCoinsList,
-                chartGithubCommitsData,
-                chartGithubCommitsOptions
             };
         },
     });
 </script>
-
-<style>
-
-
-</style>
