@@ -46,7 +46,7 @@ class GithubAPI
         )->commits);
     }
 
-    public function getAllCommitsData(string $owner, string $repository, ?string $since = null, ?int $currentPage = 1): GithubCommitsResponsesDTO
+    private function getAllCommitsData(string $owner, string $repository, ?string $since = null, ?int $currentPage = 1): GithubCommitsResponsesDTO
     {
         $hasMorePages = true;
 

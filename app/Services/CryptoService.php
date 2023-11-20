@@ -5,12 +5,13 @@ namespace App\Services;
 use App\Enums\RangeEnum;
 use App\Models\Crypto;
 use App\Models\GithubCommit;
-use App\Models\GithubProject;
 use App\Strategies\AddCommitsMissingData\AddMissingDataStrategy;
 use App\Strategies\AddCommitsMissingData\AddMissingDataUsingIndexStrategy;
 use App\Strategies\AddCommitsMissingData\AddMissingDataUsingValueStrategy;
 use App\Support\GithubAPI;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class CryptoService
 {
@@ -36,61 +37,44 @@ class CryptoService
         return true;
     }
 
-    // TODO: Aplicar single responsability
-    public function getCommitsDates(?array $coins = [], RangeEnum $range): array
+    public function getCommitsDates(?array $cryptoData = [], RangeEnum $range): array
     {
-        $tokens = $coins ? collect($coins)->pluck('symbol') : [];
+        $token = $cryptoData ? collect($cryptoData)->pluck('symbol') : [];
 
-        $cryptoWithCommits = Crypto::with(['githubProject.githubCommits' => function($query) use($range) {
-            return $query->filterByRange($range);
-        }])
-            ->whereIn('token', $tokens)
-            ->get();
+        $cryptoWithCommits = $this->getCryptoWithCommits($token, $range);
 
-        $dates = $cryptoWithCommits->map(function($crypto) {
-            return $crypto->githubProject->githubCommits->map(function ($commit) {
-                return $commit->committed_at = explode(' ', $commit->committed_at)[0];
-            })->unique()->values()->toArray();
-        })->unique()->values()->toArray();
+        $dates = $this->listCommitedAtToDateString($cryptoWithCommits);
 
         if (!$dates) {
             return [];
         }
 
-        $dates = $this->addMissingDates($dates[0], new AddMissingDataUsingValueStrategy());
+        // TODO: only add for the first crypto? $dates[0] (this needs a fix for multiple crypto)
+        $dates = $this->addMissingDatesTo($dates[0], new AddMissingDataUsingValueStrategy());
 
         return [$dates];
     }
 
-    // TODO: Aplicar single responsability
-    public function getCommitsCount(?array $coins = [], RangeEnum $range): array
+    public function getCommitsCount(?array $cryptoDate = [], RangeEnum $range): array
     {
-        $tokens = $coins ? collect($coins)->pluck('symbol') : [];
+        $crypto = $cryptoDate ? collect($cryptoDate)->pluck('symbol') : [];
 
-        $cryptosWithCommits = Crypto::with(['githubProject.githubCommits' => function($query) use($range) {
-            return $query->filterByRange($range);
-        }])->whereIn('token', $tokens)->get();
+        $cryptosWithCommits = $this->getCryptoWithCommits($crypto, $range);
 
-        $cryptosWithCommits = $cryptosWithCommits->mapWithKeys(function($crypto, $key) {
-            $commitsPerDate = $crypto->githubProject->githubCommits->countBy(function (GithubCommit $commit) {
-                return explode(' ', $commit->committed_at)[0];
-            })->toArray();
-            return [$crypto->token => $commitsPerDate];
-        })->unique()->toArray();
+        $cryptosWithCommitDates = $this->listCommitedAtToDateStringAsIndex($cryptosWithCommits);
 
-        if (!$cryptosWithCommits) {
+        if (!$cryptosWithCommitDates) {
             return [];
         }
 
-        return collect($cryptosWithCommits)->map(function (array $crypto) {
-            return $this->addMissingDates($crypto, new AddMissingDataUsingIndexStrategy());
-        })->toArray();
+        return collect($cryptosWithCommitDates)->each(fn (array $dates) => (
+            $this->addMissingDatesTo($dates, new AddMissingDataUsingIndexStrategy())
+        ))->toArray();
     }
 
-    // TODO: naming of interfaces, and strategy.
-    private function addMissingDates(array $fromDates, AddMissingDataStrategy $addMissingData): array
+    private function addMissingDatesTo(array $commitDates, AddMissingDataStrategy $addMissingData): array
     {
-        $dates = collect($fromDates);
+        $dates = collect($commitDates);
 
         $recentDate = Carbon::parse($addMissingData->getFirstDateFrom($dates));
         $oldestDate = Carbon::parse($addMissingData->getLastDateFrom($dates));
@@ -108,5 +92,40 @@ class CryptoService
         }
 
         return $addMissingData->getArraySortedDesc($dates);
+    }
+
+    /**
+     * @param array|Collection $tokens
+     * @param RangeEnum $range
+     * @return Builder[]|Collection
+     */
+    private function getCryptoWithCommits(array|Collection $tokens, RangeEnum $range): array|Collection
+    {
+        return Crypto::with(['githubProject.githubCommits' => fn ($query) => ($query->filterByRange($range))])
+            ->whereIn('token', $tokens)
+            ->get();
+    }
+
+    /**
+     * @param array|Collection $cryptoWithCommits
+     * @return array
+     */
+    private function listCommitedAtToDateString(array|Collection $cryptoWithCommits): array
+    {
+        return $cryptoWithCommits->map(fn($crypto) => (
+            $crypto->githubProject->githubCommits->map(fn($commit) => (
+                $commit->committed_at = explode(' ', $commit->committed_at)[0]
+            ))->unique()->values()->toArray()
+        ))->unique()->values()->toArray();
+    }
+
+    private function listCommitedAtToDateStringAsIndex(array|Collection $cryptosWithCommits): array
+    {
+        return $cryptosWithCommits->mapWithKeys(function($crypto, $key) {
+            $commitsPerDate = $crypto->githubProject->githubCommits->countBy(function (GithubCommit $commit) {
+                return explode(' ', $commit->committed_at)[0];
+            })->toArray();
+            return [$crypto->token => $commitsPerDate];
+        })->unique()->toArray();
     }
 }
