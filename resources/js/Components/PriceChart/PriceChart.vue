@@ -1,10 +1,11 @@
 <template>
+    <h2>Historical Price</h2>
     <LineChart :chartData="chartData" class="chart" :options="chartOptions" />
 </template>
 
 <script>
 import "../../../css/charts.scss";
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { LineChart } from 'vue-chart-3';
 import moment from 'moment';
 import 'chartjs-adapter-moment';
@@ -18,12 +19,14 @@ export default defineComponent({
     props: {
         chartPrices: Array,
         chartDates: Array,
+        filterRange: String,
         error: String,
     },
+
     setup(props) {
         const chartData = computed(() => {
             const dates = props.chartDates.map((timestamp) => {
-                return moment(timestamp).format("YYYY-MM-DDTHH:mm:ss");
+                return moment.unix(timestamp).format("YYYY-MM-DDTHH:mm:ss");
             })
 
             let datasets = [];
@@ -49,12 +52,15 @@ export default defineComponent({
             }
         });
 
-        const chartOptions = ref(priceChartOptions)
+        const chartOptions = computed(() => {
+            return priceChartOptions(props.filterRange)
+        })
 
         return {
             chartOptions,
             chartData,
         };
     },
+
 });
 </script>

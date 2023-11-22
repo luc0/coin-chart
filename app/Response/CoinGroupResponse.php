@@ -54,6 +54,7 @@ class CoinGroupResponse
             return [];
         }
 
+        /** @var CoinResponse $firstCoinResponse */
         $firstCoinResponse = collect($this->responses)->first();
 
         return $firstCoinResponse->getDates();

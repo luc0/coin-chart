@@ -25,7 +25,7 @@ class IndexController extends Controller
 
         $githubCommitsDates = $cryptoService->getCommitsDates($coins, $range);
         $githubCommitsCount = $cryptoService->getCommitsCount($coins, $range);
-
+//        dd($githubCommitsCount, $githubCommitsDates);
         $data = [
             'coinsList' => $coinRankingAPI->listCoins($coins), // coinList
             'coinsSelected' => $coins, // currentCoins

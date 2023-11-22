@@ -74,6 +74,10 @@ class CryptoService
 
     private function addMissingDatesTo(array $commitDates, AddMissingDataStrategy $addMissingData): array
     {
+        if (!$commitDates) {
+            return $commitDates;
+        }
+
         $dates = collect($commitDates);
 
         $recentDate = Carbon::parse($addMissingData->getFirstDateFrom($dates));
