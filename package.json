@@ -26,12 +26,14 @@
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
+        "@mdi/font": "^7.3.67",
         "chart.js": "^3.5.1",
         "chartjs-adapter-moment": "^1.0.0",
         "collect.js": "^4.29.0",
         "moment": "^2.29.1",
         "sass": "^1.43.3",
         "sass-loader": "^12.2.0",
-        "vue-chart-3": "^0.5.8"
+        "vue-chart-3": "^0.5.8",
+        "vuetify": "^3.4.3"
     }
 }

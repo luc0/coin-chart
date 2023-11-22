@@ -909,6 +909,11 @@
   dependencies:
     nprogress "^0.2.0"
 
+"@mdi/font@^7.3.67":
+  version "7.3.67"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-7.3.67.tgz#faa344a04c9d02f608c891a01134084febeb42db"
+  integrity sha512-SWxvzRbUQRfewlIV+OF4/YF4DkeTjMWoT8Hh9yeU/5UBVdJZj9Uf4a9+cXjknSIhIaMxZ/4N1O/s7ojApOOGjg==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -5604,6 +5609,11 @@ vue@^3.0.5:
     "@vue/compiler-dom" "3.2.8"
     "@vue/runtime-dom" "3.2.8"
     "@vue/shared" "3.2.8"
+
+vuetify@^3.4.3:
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.4.3.tgz#9316582a811136d32ecff2b214b399f400f4af10"
+  integrity sha512-b8yi87Zv4bn2JbaVkkV9uzSRw0fdY/v3ieWne0OTI29w/CNSyLyfHGBCrmx7eD74i562M1j+AwSSRJCX3wF0+Q==
 
 watchpack@^2.2.0:
   version "2.2.0"

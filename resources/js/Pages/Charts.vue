@@ -16,8 +16,11 @@
                     <Search :class="'select-coin'" :list="filterableCoinsList" @add-coin="addCoin"/>
                 </div>
                 <div class="coin-grouping">
-                    <input id="grouped" type="checkbox" :checked="grouped" @click="changeGrouped()">
-                    <label for="grouped">Grouped</label>
+                    <v-switch label="Grouped" color="primary" id="grouped" type="checkbox"
+                              :checked="grouped"
+                              @click="changeGrouped()">
+                        Grouped
+                    </v-switch>
                 </div>
             </div>
         </div>
@@ -28,8 +31,17 @@
             </div>
         </div>
 
-        <PriceChart :chartDates="chartDates" :chartPrices="chartPrices"/>
-        <CommitsChart :chartGithubCommits="chartGithubCommits" :chartGithubCommitsDates="chartGithubCommitsDates"/>
+        <PriceChart :chartDates="chartDates"
+                    :chartPrices="chartPrices"
+                    :filterRange="filterRange"
+        />
+        <div class="mt-16">
+            <CommitsChart v-show="chartGithubCommitsDates[0]?.length"
+                          :chartGithubCommits="chartGithubCommits"
+                          :chartGithubCommitsDates="chartGithubCommitsDates"
+
+            />
+        </div>
 
         <p v-if="error" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
             {{ error }}
@@ -39,7 +51,7 @@
 
 <script>
     import "../../css/charts.scss";
-    import { defineComponent, ref, computed, reactive, toRefs } from 'vue';
+    import { defineComponent, computed, reactive, toRefs } from 'vue';
     import { LineChart } from 'vue-chart-3';
     import FilterRange from '../Components/FilterRange/FilterRange.vue';
     import FilterCoin from '../Components/FilterCoin/FilterCoin.vue';
@@ -49,6 +61,7 @@
     import { Inertia } from '@inertiajs/inertia';
     import { usePage } from '@inertiajs/inertia-vue3'
     import 'chartjs-adapter-moment';
+    import 'vuetify/dist/vuetify.min.css'
 
     let PALETTE = ['#f3a683', '#f7d794', '#778beb', '#e77f67', '#cf6a87', '#786fa6', '#f8a5c2', '#63cdda', '#ea8685']
 

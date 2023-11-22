@@ -1,4 +1,5 @@
 <template>
+    <h2>Github commits</h2>
     <LineChart :chartData="chartData" class="chart" :options="chartOptions" />
 </template>
 
@@ -30,7 +31,6 @@ export default defineComponent({
             const dates = props.chartGithubCommitsDates[0]?.map((timestamp) => {
                 return moment(timestamp)
             })
-            console.log('props.chartGithubCommitsDates[0]', props.chartGithubCommitsDates[0])
 
             let datasets = [];
             let datasetCount = -1
@@ -49,7 +49,6 @@ export default defineComponent({
                 }).toArray()
             }
 
-            console.log('dates', dates, datasets)
             return {
                 labels: dates,
                 datasets: datasets,
