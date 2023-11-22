@@ -32,8 +32,6 @@ const PriceChartOptions = (filterRange) => {
                         const currentMoment = moment(value);
                         const previousMoment = index > 0 ? moment(values[index - 1].value) : null;
 
-                        // console.log('currentMoment', currentMoment, currentMoment.format('DD - HH a'))
-
                         if (previousMoment && currentMoment.year() !== previousMoment.year()) {
                             return currentMoment.format('YYYY');
                         } else {
