@@ -67,7 +67,7 @@ class CryptoService
             return [];
         }
 
-        return collect($cryptosWithCommitDates)->each(fn (array $dates) => (
+        return collect($cryptosWithCommitDates)->map(fn (array $dates) => (
             $this->addMissingDatesTo($dates, new AddMissingDataUsingIndexStrategy())
         ))->toArray();
     }
